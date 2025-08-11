@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<BorderPane
+        xmlns="http://javafx.com/javafx"
+        xmlns:fx="http://javafx.com/fxml"
+        fx:controller="de.coin.kniffel.controller.ScoreTableViewController"
+>
+
+    <top>
+        <Label fx:id="gameInfos" />
+    </top>
+    <center>
+        <TableView fx:id="scoreTable" prefHeight="400.0" prefWidth="600.0">
+            <columns>
+                <TableColumn fx:id="positionColumn" text="Position" />
+                <TableColumn fx:id="playerNameColumn" text="Name" />
+                <TableColumn fx:id="totalScoreColumn" text="Gesamtpunkte" />
+            </columns>
+        </TableView>
+    </center>
+
+    <bottom>
+        <HBox alignment="BOTTOM_RIGHT" spacing="10.0">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+            <Button fx:id="backButton" text="Zurück" />
+        </HBox>
+    </bottom>
+
+</BorderPane>

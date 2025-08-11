@@ -1,0 +1,103 @@
+package de.coin.kniffel.controller;
+
+import java.net.URL;
+import java.time.LocalDate;
+import java.util.ResourceBundle;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.coin.kniffel.model.Player;
+import de.coin.kniffel.service.PlayerService;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+
+public class PlayerController implements Initializable {
+
+    private static final Logger log = LoggerFactory.getLogger(PlayerController.class);
+    public TableView<Player> playerTableView;
+    public TableColumn<Player, Integer> idColumn;
+    public TableColumn<Player, String> nameColumn;
+    public TableColumn<Player, LocalDate> createdAtColumn;
+    public TableColumn<Player, LocalDate> updatedAtColumn;
+    public TextField nameField;
+    public Button backButton;
+
+    private ObservableList<Player> playerList;
+
+    private final PlayerService service = new PlayerService();
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("playerId"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("playerName"));
+        createdAtColumn.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
+        updatedAtColumn.setCellValueFactory(new PropertyValueFactory<>("updatedAt"));
+
+        playerList = FXCollections.observableArrayList(service.getAllPlayers());
+        playerTableView.setItems(playerList);
+
+        backButton.setOnAction(e -> ((javafx.stage.Stage) backButton.getScene().getWindow()).close());
+    }
+
+    public void handleAddPlayer(ActionEvent actionEvent) {
+        if (nameField.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Fehler", "Name darf nicht leer sein.");
+            return;
+        }
+        service.addNewPlayer(nameField.getText());
+        refreshTable();
+    }
+
+    public void handleUpdatePlayer(ActionEvent actionEvent) {
+        Player player = playerTableView.getSelectionModel().getSelectedItem();
+        if (player == null) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Kein Spieler ausgewählt.");
+            return;
+        }
+        if (nameField.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Fehler", "Name darf nicht leer sein.");
+        }
+
+        String newName = nameField.getText();
+        service.updatePlayer(player, newName);
+        refreshTable();
+    }
+
+    public void handleDeletePlayer(ActionEvent actionEvent) {
+        Player player = playerTableView.getSelectionModel().getSelectedItem();
+        if (player == null) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Kein Spieler ausgewählt.");
+            return;
+        }
+
+        service.deletePlayer(player);
+        refreshTable();
+    }
+
+    /**
+     * Refresh the TableView by re-fetching players from the database.
+     */
+    private void refreshTable() {
+        playerList.clear();
+        playerList.addAll(service.getAllPlayers());
+    }
+
+    /**
+     * Utility function to show alerts.
+     */
+    public void showAlert(Alert.AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+}

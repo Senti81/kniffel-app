@@ -10,6 +10,12 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
 # Package Files #
 *.jar
 *.war
@@ -25,4 +31,3 @@ replay_pid*
 
 /data/
 /target/
-/.idea/
