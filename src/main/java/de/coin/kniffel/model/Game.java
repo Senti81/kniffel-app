@@ -5,14 +5,26 @@ import java.time.LocalDateTime;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import lombok.Getter;
+import lombok.Setter;
 
 public class Game {
 
     private final IntegerProperty gameId = new SimpleIntegerProperty();
+    @Setter
+    @Getter
     private int nr;
+    @Setter
+    @Getter
     private int year;
+    @Setter
+    @Getter
     private LocalDate date;
+    @Setter
+    @Getter
     private LocalDateTime createdAt;
+    @Setter
+    @Getter
     private LocalDateTime updatedAt;
 
     public Game() {}
@@ -33,43 +45,4 @@ public class Game {
         return gameId;
     }
 
-    public int getNr() {
-        return nr;
-    }
-
-    public void setNr(int nr) {
-        this.nr = nr;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 }
