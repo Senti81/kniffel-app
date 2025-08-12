@@ -24,10 +24,7 @@ public class ScoreService {
     }
 
     public List<TotalPlayerScoreDTO> getTotalScoreFromYear(int year) {
-        List<TotalPlayerScoreDTO> totalScoreOfEachPlayerByYear = scoreRepository.getTotalScoreOfEachPlayerByYear(year);
-        log.info("Found {} entries", totalScoreOfEachPlayerByYear.size());
-        log.info("Total score of each player in year {}: {}", year, totalScoreOfEachPlayerByYear);
-        return totalScoreOfEachPlayerByYear;
+        return scoreRepository.getTotalScoreOfEachPlayerByYear(year);
     }
 
     public List<ScoreDTO> getAllScores() {
