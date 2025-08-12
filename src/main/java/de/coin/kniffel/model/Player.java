@@ -38,6 +38,14 @@ public class Player {
         this.playerName.set(playerName);
     }
 
+    public IntegerProperty playerIdProperty() {
+        return playerId;
+    }
+
+    public StringProperty playerNameProperty() {
+        return playerName;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }

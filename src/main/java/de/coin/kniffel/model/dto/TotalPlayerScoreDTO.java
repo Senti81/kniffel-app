@@ -35,13 +35,4 @@ public class TotalPlayerScoreDTO {
     public void setTotalScore(Integer totalScore) {
         this.totalScore = totalScore;
     }
-
-    @Override
-    public String toString() {
-        return "TotalPlayerScoreDTO{" +
-                "position=" + position +
-                "playerName='" + playerName + '\'' +
-                ", totalScore=" + totalScore +
-                '}';
-    }
 }

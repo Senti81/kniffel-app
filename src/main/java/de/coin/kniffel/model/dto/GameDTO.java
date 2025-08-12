@@ -37,13 +37,4 @@ public class GameDTO {
     public void setGameDate(LocalDate gameDate) {
         this.gameDate = gameDate;
     }
-
-    @Override
-    public String toString() {
-        return "GameDTO{" +
-                "gameNumber=" + gameNumber +
-                ", gameYear=" + gameYear +
-                ", gameDate=" + gameDate +
-                '}';
-    }
 }

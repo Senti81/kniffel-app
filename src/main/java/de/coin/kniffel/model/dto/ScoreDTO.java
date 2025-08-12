@@ -57,14 +57,4 @@ public class ScoreDTO {
     public void setFinalScore(int finalScore) {
         this.finalScore = finalScore;
     }
-
-    @Override
-    public String toString() {
-        return "ScoreDTO{" +
-                "gameNumber=" + gameNumber +
-                ", gameDate=" + gameDate +
-                ", playerName='" + playerName + '\'' +
-                ", finalScore=" + finalScore +
-                '}';
-    }
 }
