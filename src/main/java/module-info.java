@@ -8,7 +8,6 @@ module de.coin.kniffel {
     requires java.sql;
     requires jdk.jdi;
     requires org.slf4j;
-    requires static lombok;
 
     opens de.coin.kniffel.model to javafx.fxml;
     opens de.coin.kniffel.controller to javafx.fxml;
