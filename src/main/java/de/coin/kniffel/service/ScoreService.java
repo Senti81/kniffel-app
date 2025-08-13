@@ -26,8 +26,4 @@ public class ScoreService {
     public List<TotalPlayerScoreDTO> getTotalScoreFromYear(int year) {
         return scoreRepository.getTotalScoreOfEachPlayerByYear(year);
     }
-
-    public List<ScoreDTO> getAllScores() {
-        return scoreRepository.findAll();
-    }
 }

@@ -22,6 +22,7 @@ public class ScoreRepository {
 
     private static final Logger log = LoggerFactory.getLogger(ScoreRepository.class);
 
+    private static final String INSERT_SCORE = "INSERT INTO Score (game_id, player_id, score) VALUES (?, ?, ?)";
     private static final String GET_TOTAL_SCORE_OF_EACH_PLAYER_BY_YEAR = """
             SELECT      p.NAME, SUM(s.score) AS total_score
             FROM        Score s
@@ -32,6 +33,8 @@ public class ScoreRepository {
             ORDER BY    total_score DESC;
             """;
 
+
+    // for debug only
     private static final String QUERY = """
             SELECT
                 g.game_nr AS game_number,
@@ -45,9 +48,9 @@ public class ScoreRepository {
         """;
 
     public void save(Score score) {
-        String insertScore = "INSERT INTO Score (game_id, player_id, score) VALUES (?, ?, ?)";
-        try (Connection connection = DatabaseUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(insertScore)) {
+        try {
+            Connection connection = DatabaseUtil.getConnection();
+            PreparedStatement statement = connection.prepareStatement(INSERT_SCORE);
 
             statement.setInt(1, score.getGameId());
             statement.setInt(2, score.getPlayerId());
@@ -64,41 +67,12 @@ public class ScoreRepository {
         }
     }
 
-    /**
-     * Fetch all scores from the database with game number and player name.
-     *
-     * @return a List of Score objects containing game number, player name, and score.
-     */
-    public List<ScoreDTO> findAll() {
-        List<ScoreDTO> scores = new ArrayList<>();
-
-        try (Connection connection = DatabaseUtil.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(QUERY);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
-
-            while (resultSet.next()) {
-                int gameNumber = resultSet.getInt("game_number");
-                int gameYear = resultSet.getInt("game_year");
-                LocalDate gameDate = LocalDate.parse(resultSet.getString("game_date"));
-                String playerName = resultSet.getString("player_name");
-                int finalScore = resultSet.getInt("final_score");
-
-                ScoreDTO scoreDTO = new ScoreDTO(gameNumber, gameYear, gameDate, playerName, finalScore);
-                scores.add(scoreDTO);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        log.info("Found {} entries", scores.size());
-        return scores;
-    }
-
     public List<TotalPlayerScoreDTO> getTotalScoreOfEachPlayerByYear(int year) {
         List<TotalPlayerScoreDTO> totalPlayerScoreDTOList = new ArrayList<>();
 
-        try (Connection connection = DatabaseUtil.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(GET_TOTAL_SCORE_OF_EACH_PLAYER_BY_YEAR)){
+        try {
+            Connection connection = DatabaseUtil.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_TOTAL_SCORE_OF_EACH_PLAYER_BY_YEAR);
 
              preparedStatement.setInt(1, year);
              ResultSet resultSet = preparedStatement.executeQuery();

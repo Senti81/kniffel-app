@@ -33,8 +33,9 @@ public class PlayerRepository{
      *               the name, creation timestamp, and update timestamp.
      */
     public void save(Player player) {
-        try (Connection connection = DatabaseUtil.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SAVE_PLAYER, Statement.RETURN_GENERATED_KEYS)) {
+        try {
+            Connection connection = DatabaseUtil.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SAVE_PLAYER, Statement.RETURN_GENERATED_KEYS);
 
             preparedStatement.setString(1, player.getPlayerName());
             preparedStatement.setTimestamp(2, Timestamp.valueOf(player.getCreatedAt()));
@@ -52,9 +53,10 @@ public class PlayerRepository{
     public List<Player> findAll() {
         List<Player> players = new ArrayList<>();
 
-        try (Connection connection = DatabaseUtil.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(READ_ALL_PLAYERS);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+        try {
+            Connection connection = DatabaseUtil.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(READ_ALL_PLAYERS);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 Player player = new Player();
@@ -74,8 +76,9 @@ public class PlayerRepository{
     }
 
     public void update(Player player) {
-        try (Connection connection = DatabaseUtil.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PLAYER)) {
+        try {
+            Connection connection = DatabaseUtil.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PLAYER);
 
             preparedStatement.setString(1, player.getPlayerName());
             preparedStatement.setTimestamp(2, Timestamp.valueOf(player.getUpdatedAt())); // updated_at
@@ -90,9 +93,9 @@ public class PlayerRepository{
     }
 
     public void delete(Player player) {
-
-        try (Connection connection = DatabaseUtil.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PLAYER)) {
+        try {
+            Connection connection = DatabaseUtil.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PLAYER);
 
             preparedStatement.setInt(1, player.getPlayerId());
             preparedStatement.executeUpdate();

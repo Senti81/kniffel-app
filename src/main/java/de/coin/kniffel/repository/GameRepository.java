@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,14 +23,15 @@ public class GameRepository {
     private static final Logger log = LoggerFactory.getLogger(GameRepository.class);
 
     private static final String FIND_ALL_GAMES = "SELECT * FROM Game";
-//    private static final String FIND_BY_YEAR = "SELECT * FROM Game WHERE game_year = ?";
+    private static final String UPDATE_GAME = "UPDATE Game SET game_nr = ?, date = ?, updated_at = ? WHERE id = ?";
     private static final String FIND_BY_NUMBER_AND_YEAR = "SELECT * FROM GAME WHERE game_nr = ? AND game_year = ?";
     private static final String FIND_LATEST_GAME_NR = "SELECT MAX(GAME_NR) as latest_game_nr FROM GAME WHERE GAME_YEAR = ?";
     private static final String INSERT_GAME = "INSERT INTO Game (game_nr, game_year, date, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
 
     public int save(Game game) {
-        try (Connection connection = DatabaseUtil.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_GAME, PreparedStatement.RETURN_GENERATED_KEYS)) {
+        try {
+            Connection connection = DatabaseUtil.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_GAME, PreparedStatement.RETURN_GENERATED_KEYS);
 
             preparedStatement.setInt(1, game.getNr());
             preparedStatement.setInt(2, game.getYear());
@@ -39,7 +41,6 @@ public class GameRepository {
 
             preparedStatement.executeUpdate();
 
-            // Fetch the generated game ID
             ResultSet keys = preparedStatement.getGeneratedKeys();
             if (keys.next()) {
                 log.info("Game saved successfully with ID: {}", keys.getInt(1));
@@ -53,10 +54,10 @@ public class GameRepository {
 
     public List<GameDTO> findAll() {
         List<GameDTO> games = new ArrayList<>();
-
-        try (Connection connection = DatabaseUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL_GAMES);
-             ResultSet resultSet = statement.executeQuery()) {
+        try {
+            Connection connection = DatabaseUtil.getConnection();
+            PreparedStatement statement = connection.prepareStatement(FIND_ALL_GAMES);
+            ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
                 int gameNumber = resultSet.getInt("game_nr");
@@ -76,8 +77,9 @@ public class GameRepository {
 
     public Game findByGameNumberAndYear(int gameNumber, int gameYear) {
         log.info("Fetching game by game number and year: {}, {}", gameNumber, gameYear);
-        try (Connection connection = DatabaseUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_BY_NUMBER_AND_YEAR)) {
+        try {
+            Connection connection = DatabaseUtil.getConnection();
+            PreparedStatement statement = connection.prepareStatement(FIND_BY_NUMBER_AND_YEAR);
 
             statement.setInt(1, gameNumber);
             statement.setInt(2, gameYear);
@@ -96,14 +98,15 @@ public class GameRepository {
                 return null;
             }
         } catch (SQLException e) {
-            log.error("Error while fetching game by number: {}", e.getMessage());
+            log.error("Error while fetching game number and year: {}", e.getMessage());
             return null;
         }
     }
 
     public int findLatestGameNumber() {
-        try (Connection connection = DatabaseUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_LATEST_GAME_NR)) {
+        try {
+            Connection connection = DatabaseUtil.getConnection();
+            PreparedStatement statement = connection.prepareStatement(FIND_LATEST_GAME_NR);
 
             statement.setInt(1, LocalDate.now().getYear());
             ResultSet result = statement.executeQuery();
@@ -119,6 +122,22 @@ public class GameRepository {
             log.error("Error while fetching game by number: {}", e.getMessage());
             return -1;
         }
+    }
+
+    public void update(Game game) {
+        try {
+            Connection connection = DatabaseUtil.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_GAME);
+
+            preparedStatement.setInt(1, game.getNr());
+            preparedStatement.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
+            preparedStatement.setString(1, String.valueOf(game.getDate()));
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            log.error("Error while updating game: {}", e.getMessage());
+        }
+
     }
 
 }

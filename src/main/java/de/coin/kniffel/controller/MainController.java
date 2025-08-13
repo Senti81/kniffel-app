@@ -29,7 +29,6 @@ public class MainController implements Initializable {
 
     @FXML
     private void handleScoreManagement() {
-//        new ScoreView().start(stage);
         switchScene("add-game-view.fxml", "Kniffel - Spiel");
     }
 
