@@ -21,7 +21,7 @@
             <columns>
                 <TableColumn fx:id="positionColumn" text="Position" />
                 <TableColumn fx:id="playerNameColumn" text="Name" />
-                <TableColumn fx:id="totalScoreColumn" text="Gesamtpunkte" />
+                <TableColumn fx:id="finalScoreColumn" text="Gesamtpunkte" />
             </columns>
         </TableView>
     </center>

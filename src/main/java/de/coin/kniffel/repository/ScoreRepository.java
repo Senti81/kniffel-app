@@ -4,18 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.coin.kniffel.model.Score;
-import de.coin.kniffel.model.dto.ScoreDTO;
-import de.coin.kniffel.model.dto.TotalPlayerScoreDTO;
+import de.coin.kniffel.model.dto.GameResultDTO;
 import de.coin.kniffel.util.DatabaseUtil;
 
 public class ScoreRepository {
@@ -23,6 +19,17 @@ public class ScoreRepository {
     private static final Logger log = LoggerFactory.getLogger(ScoreRepository.class);
 
     private static final String INSERT_SCORE = "INSERT INTO Score (game_id, player_id, score) VALUES (?, ?, ?)";
+
+    private static final String GET_SCORE_OF_EACH_PLAYER_BY_YEAR_AND_GAME = """
+            SELECT      p.name, s.score
+            FROM        Score s
+            JOIN        Game g on s.GAME_ID = g.ID
+            JOIN        Player p on s.PLAYER_ID = p.ID
+            WHERE       game_year = ? AND game_nr = ?
+            GROUP BY    p.name, s.score
+            ORDER BY    s.score DESC;
+            """;
+
     private static final String GET_TOTAL_SCORE_OF_EACH_PLAYER_BY_YEAR = """
             SELECT      p.NAME, SUM(s.score) AS total_score
             FROM        Score s
@@ -67,15 +74,42 @@ public class ScoreRepository {
         }
     }
 
-    public List<TotalPlayerScoreDTO> getTotalScoreOfEachPlayerByYear(int year) {
-        List<TotalPlayerScoreDTO> totalPlayerScoreDTOList = new ArrayList<>();
+    public List<GameResultDTO> getScoreOfEachPlayerByYearAndGame(int year, int gameNumber) {
+        List<GameResultDTO> gameResultDTOList = new ArrayList<>();
+
+        try {
+            Connection connection = DatabaseUtil.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_SCORE_OF_EACH_PLAYER_BY_YEAR_AND_GAME);
+
+            preparedStatement.setInt(1, year);
+            preparedStatement.setInt(2, gameNumber);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            int index = 0;
+            while (resultSet.next()) {
+                index++;
+                int position = index;
+                String playerName = resultSet.getString("name");
+                int totalScore = resultSet.getInt("score");
+                GameResultDTO gameResultDTO = new GameResultDTO(position, playerName, totalScore);
+                gameResultDTOList.add(gameResultDTO);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return gameResultDTOList;
+    }
+
+    public List<GameResultDTO> getTotalScoreOfEachPlayerByYear(int year) {
+        List<GameResultDTO> gameResultDTOList = new ArrayList<>();
 
         try {
             Connection connection = DatabaseUtil.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(GET_TOTAL_SCORE_OF_EACH_PLAYER_BY_YEAR);
 
-             preparedStatement.setInt(1, year);
-             ResultSet resultSet = preparedStatement.executeQuery();
+            preparedStatement.setInt(1, year);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             int index = 0;
             while (resultSet.next()) {
@@ -83,14 +117,14 @@ public class ScoreRepository {
                 int position = index;
                 String playerName = resultSet.getString("name");
                 int totalScore = resultSet.getInt("total_score");
-                TotalPlayerScoreDTO totalPlayerScoreDTO = new TotalPlayerScoreDTO(position, playerName, totalScore);
-                totalPlayerScoreDTOList.add(totalPlayerScoreDTO);
+                GameResultDTO gameResultDTO = new GameResultDTO(position, playerName, totalScore);
+                gameResultDTOList.add(gameResultDTO);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return totalPlayerScoreDTOList;
+        return gameResultDTOList;
     }
 
 }

@@ -2,17 +2,12 @@ package de.coin.kniffel.controller;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.Map;
+import java.util.List;
 import java.util.ResourceBundle;
 
-import de.coin.kniffel.model.dto.ScoreDTO;
-import de.coin.kniffel.model.dto.TotalPlayerScoreDTO;
-import de.coin.kniffel.repository.ScoreRepository;
-import de.coin.kniffel.model.Score;
+import de.coin.kniffel.model.dto.GameResultDTO;
 import de.coin.kniffel.service.GameService;
 import de.coin.kniffel.service.ScoreService;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -23,10 +18,10 @@ import javafx.stage.Stage;
 
 public class ScoreTableViewController implements Initializable {
 
-    public TableView<TotalPlayerScoreDTO> scoreTable;
-    public TableColumn<TotalPlayerScoreDTO, Integer> positionColumn;
-    public TableColumn<TotalPlayerScoreDTO, String> playerNameColumn;
-    public TableColumn<TotalPlayerScoreDTO, Integer> totalScoreColumn;
+    public TableView<GameResultDTO> scoreTable;
+    public TableColumn<GameResultDTO, Integer> positionColumn;
+    public TableColumn<GameResultDTO, String> playerNameColumn;
+    public TableColumn<GameResultDTO, Integer> finalScoreColumn;
     public Button backButton;
 
     private final GameService gameService = new GameService();
@@ -37,7 +32,7 @@ public class ScoreTableViewController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         positionColumn.setCellValueFactory(new PropertyValueFactory<>("position"));
         playerNameColumn.setCellValueFactory(new PropertyValueFactory<>("playerName"));
-        totalScoreColumn.setCellValueFactory(new PropertyValueFactory<>("totalScore"));
+        finalScoreColumn.setCellValueFactory(new PropertyValueFactory<>("finalScore"));
         gameInfos.setText("Aktueller Stand nach Spiel: " + gameService.getLatestGameNumber());
         service.getTotalScoreFromYear(LocalDate.now().getYear()).forEach(scoreDTO -> scoreTable.getItems().add(scoreDTO));
         backButton.setOnAction(e -> ((Stage) backButton.getScene().getWindow()).close());
