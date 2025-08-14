@@ -15,8 +15,8 @@ public class KniffelApplication extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("main-view.fxml")));
-        primaryStage.setTitle("Hello Application");
-        primaryStage.setScene(new Scene(root, 400, 300));
+        Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 

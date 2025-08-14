@@ -32,7 +32,7 @@ public class ScoreService {
         return scoreRepository.getTotalScoreOfEachPlayerByYear(year);
     }
 
-    public List<GameResultDTO> getScoreFromYearAndGame(int year, int gameNumber) {
+    public List<GameResultDTO> getGameResultsByYearAndGameNumber(int year, int gameNumber) {
         List<GameResultDTO> gameResultList = scoreRepository.getScoreOfEachPlayerByYearAndGame(year, gameNumber);
         return calculateContributions(gameResultList);
     }
