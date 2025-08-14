@@ -23,7 +23,6 @@ public class GameRepository {
     private static final Logger log = LoggerFactory.getLogger(GameRepository.class);
 
     private static final String FIND_ALL_GAMES = "SELECT * FROM Game";
-    private static final String UPDATE_GAME = "UPDATE Game SET game_nr = ?, date = ?, updated_at = ? WHERE id = ?";
     private static final String FIND_BY_NUMBER_AND_YEAR = "SELECT * FROM GAME WHERE game_nr = ? AND game_year = ?";
     private static final String FIND_LATEST_GAME_NR = "SELECT MAX(GAME_NR) as latest_game_nr FROM GAME WHERE GAME_YEAR = ?";
     private static final String INSERT_GAME = "INSERT INTO Game (game_nr, game_year, date, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
@@ -36,8 +35,8 @@ public class GameRepository {
             preparedStatement.setInt(1, game.getNr());
             preparedStatement.setInt(2, game.getYear());
             preparedStatement.setDate(3, Date.valueOf(game.getDate()));
-            preparedStatement.setTimestamp(4, Timestamp.valueOf(game.getCreatedAt()));
-            preparedStatement.setTimestamp(5, Timestamp.valueOf(game.getUpdatedAt()));
+            preparedStatement.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
+            preparedStatement.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
 
             preparedStatement.executeUpdate();
 
@@ -64,7 +63,10 @@ public class GameRepository {
                 int gameYear = resultSet.getInt("game_year");
                 LocalDate gameDate = resultSet.getDate("date").toLocalDate();
 
-                GameDTO gameDTO = new GameDTO(gameNumber, gameYear, gameDate);
+                GameDTO gameDTO = new GameDTO();
+                gameDTO.setGameNumber(gameNumber);
+                gameDTO.setGameYear(gameYear);
+                gameDTO.setGameDate(gameDate);
                 games.add(gameDTO);
             }
 
@@ -122,22 +124,6 @@ public class GameRepository {
             log.error("Error while fetching game by number: {}", e.getMessage());
             return -1;
         }
-    }
-
-    public void update(Game game) {
-        try {
-            Connection connection = DatabaseUtil.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_GAME);
-
-            preparedStatement.setInt(1, game.getNr());
-            preparedStatement.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
-            preparedStatement.setString(1, String.valueOf(game.getDate()));
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            log.error("Error while updating game: {}", e.getMessage());
-        }
-
     }
 
 }

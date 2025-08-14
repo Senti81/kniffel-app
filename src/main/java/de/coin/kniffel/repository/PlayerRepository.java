@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +19,9 @@ public class PlayerRepository{
     private static final Logger log = LoggerFactory.getLogger(PlayerRepository.class);
 
     // --- SQL Queries ---
-    private static final String SAVE_PLAYER = "INSERT INTO Player (name, created_at, updated_at) VALUES (?, ?, ?)";
+    private static final String SAVE_PLAYER = "INSERT INTO Player (name) VALUES (?)";
     private static final String READ_ALL_PLAYERS = "SELECT * FROM Player";
-    private static final String UPDATE_PLAYER = "UPDATE Player SET name = ?, updated_at = ? WHERE id = ?";
+    private static final String UPDATE_PLAYER = "UPDATE Player SET name = ? WHERE id = ?";
     private static final String DELETE_PLAYER = "DELETE FROM Player WHERE id = ?";
 
     /**
@@ -38,8 +37,6 @@ public class PlayerRepository{
             PreparedStatement preparedStatement = connection.prepareStatement(SAVE_PLAYER, Statement.RETURN_GENERATED_KEYS);
 
             preparedStatement.setString(1, player.getPlayerName());
-            preparedStatement.setTimestamp(2, Timestamp.valueOf(player.getCreatedAt()));
-            preparedStatement.setTimestamp(3, Timestamp.valueOf(player.getUpdatedAt()));
             preparedStatement.executeUpdate();
 
             log.info("Player {} saved successfully", player.getPlayerName());
@@ -81,8 +78,7 @@ public class PlayerRepository{
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PLAYER);
 
             preparedStatement.setString(1, player.getPlayerName());
-            preparedStatement.setTimestamp(2, Timestamp.valueOf(player.getUpdatedAt())); // updated_at
-            preparedStatement.setInt(3, player.getPlayerId());
+            preparedStatement.setInt(2, player.getPlayerId());
             preparedStatement.executeUpdate();
 
             log.info("Player {} updated successfully", player.getPlayerName());

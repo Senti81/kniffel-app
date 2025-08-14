@@ -78,7 +78,12 @@ public class GameController implements Initializable {
                 datePicker.getValue() != null ? datePicker.getValue().toString() : String.valueOf(LocalDate.now())
         );
 
-        int newGameId = gameService.saveGame(new Game(gameNumber, gameYear, gameDate));
+        Game gameToBeSaved = new Game();
+        gameToBeSaved.setYear(gameYear);
+        gameToBeSaved.setNr(gameNumber);
+        gameToBeSaved.setDate(gameDate);
+
+        int newGameId = gameService.saveGame(gameToBeSaved);
         if (newGameId == -1) {
             log.warn("Game number {} of year {} already exists. Skipping", gameNumber, gameYear);
             showAlert(Alert.AlertType.ERROR, "Fehler", "Spielnummer existiert bereits.");
@@ -92,8 +97,12 @@ public class GameController implements Initializable {
                 log.info("Skipping score for player {}({}): {}", playerName, playerId, entry.getValue().getText());
             } else {
                 int playerScore = Integer.parseInt(entry.getValue().getText());
+                Score score = new Score();
+                score.setPlayerId(playerId);
+                score.setGameId(newGameId);
+                score.setFinalScore(playerScore);
                 log.info("Saving score for player {}({}): {}", playerName, playerId, playerScore);
-                scoreService.saveScore(new Score(newGameId, playerId, playerScore));
+                scoreService.saveScore(score);
             }
         }
 

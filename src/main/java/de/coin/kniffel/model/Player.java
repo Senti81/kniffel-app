@@ -6,12 +6,18 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import lombok.Getter;
+import lombok.Setter;
 
 public class Player {
 
     private final IntegerProperty playerId = new SimpleIntegerProperty();
     private final StringProperty playerName = new SimpleStringProperty();
+    @Setter
+    @Getter
     private LocalDateTime createdAt;
+    @Setter
+    @Getter
     private LocalDateTime updatedAt;
 
     public Player() {}
@@ -46,19 +52,4 @@ public class Player {
         return playerName;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 }
