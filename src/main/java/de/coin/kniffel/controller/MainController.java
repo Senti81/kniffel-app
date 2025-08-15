@@ -39,7 +39,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void handleScoreView()  {
-        switchScene("score-table-view.fxml", "Kniffel - Score");
+        switchScene("game-result-view.fxml", "Kniffel - Score");
     }
 
     /**
@@ -51,7 +51,8 @@ public class MainController implements Initializable {
         final String prefix = "/de/coin/kniffel/";
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(prefix + fxmlPath)));
-            stage.setScene(new Scene(root, 800, 600));
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
             stage.setTitle(title);
             stage.show();
         } catch (IOException e) {

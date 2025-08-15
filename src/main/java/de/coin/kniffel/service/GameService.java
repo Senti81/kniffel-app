@@ -27,6 +27,14 @@ public class GameService {
         return gameRepository.findAll();
     }
 
+    public List<Integer> getAllGameYears() {
+        return gameRepository.getAllGameYears();
+    }
+
+    public List<Integer> getAllGameNumbersByYear(int year) {
+        return gameRepository.getAllGameNumbersByYear(year);
+    }
+
     public int getLatestGameNumber() {
         return gameRepository.findLatestGameNumber();
     }

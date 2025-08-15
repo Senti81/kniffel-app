@@ -11,8 +11,8 @@
         <VBox alignment="CENTER" spacing="15">
             <Button alignment="CENTER" onAction="#handlePlayerManagement" style="-fx-pref-width: 200px; -fx-pref-height: 30px; -fx-background-color: #3498db; -fx-text-fill: white;" text="Spieler verwalten" />
             <Button onAction="#handleScoreManagement" style="-fx-pref-width: 200px; -fx-pref-height: 30px; -fx-background-color: #3498db; -fx-text-fill: white;" text="Neues Spiel eintragen" />
-            <Button onAction="#handleGameView" style="-fx-pref-width: 200px; -fx-pref-height: 30px; -fx-background-color: #3498db; -fx-text-fill: white;" text="Spiele ansehen" />
-            <Button onAction="#handleScoreView" style="-fx-pref-width: 200px; -fx-pref-height: 30px; -fx-background-color: #3498db; -fx-text-fill: white;" text="Punkte ansehen" />
+            <Button onAction="#handleGameView" style="-fx-pref-width: 200px; -fx-pref-height: 30px; -fx-background-color: #3498db; -fx-text-fill: white;" text="Spieleverwaltung" />
+            <Button onAction="#handleScoreView" style="-fx-pref-width: 200px; -fx-pref-height: 30px; -fx-background-color: #3498db; -fx-text-fill: white;" text="Ergebnisse" />
          <BorderPane.margin>
             <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
          </BorderPane.margin>

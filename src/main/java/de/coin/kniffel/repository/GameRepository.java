@@ -23,6 +23,9 @@ public class GameRepository {
     private static final Logger log = LoggerFactory.getLogger(GameRepository.class);
 
     private static final String FIND_ALL_GAMES = "SELECT * FROM Game";
+    private static final String GET_ALL_GAME_YEARS = "SELECT DISTINCT (game_year) FROM GAME";
+    private static final String GET_ALL_GAME_NUMBER_BY_YEAR = "SELECT game_nr FROM GAME WHERE game_year = ?";
+
     private static final String FIND_BY_NUMBER_AND_YEAR = "SELECT * FROM GAME WHERE game_nr = ? AND game_year = ?";
     private static final String FIND_LATEST_GAME_NR = "SELECT MAX(GAME_NR) as latest_game_nr FROM GAME WHERE GAME_YEAR = ?";
     private static final String INSERT_GAME = "INSERT INTO Game (game_nr, game_year, date, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
@@ -49,6 +52,41 @@ public class GameRepository {
             log.error("Error while saving game: {}", e.getMessage());
         }
         return -1;
+    }
+
+    public List<Integer> getAllGameYears() {
+        List<Integer> gameYears = new ArrayList<>();
+        try {
+            Connection connection = DatabaseUtil.getConnection();
+            PreparedStatement statement = connection.prepareStatement(GET_ALL_GAME_YEARS);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int year = resultSet.getInt("game_year");
+                gameYears.add(year);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return gameYears;
+    }
+
+    public List<Integer> getAllGameNumbersByYear(int year) {
+        List<Integer> gameNumbers = new ArrayList<>();
+        try {
+            Connection connection = DatabaseUtil.getConnection();
+            PreparedStatement statement = connection.prepareStatement(GET_ALL_GAME_NUMBER_BY_YEAR);
+            statement.setInt(1, year);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int gameNumber = resultSet.getInt("game_nr");
+                gameNumbers.add(gameNumber);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return gameNumbers;
     }
 
     public List<GameDTO> findAll() {

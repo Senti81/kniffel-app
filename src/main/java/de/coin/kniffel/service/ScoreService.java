@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import de.coin.kniffel.model.Score;
 import de.coin.kniffel.model.dto.GameResultDTO;
 import de.coin.kniffel.repository.ScoreRepository;
+import javafx.beans.property.DoubleProperty;
 
 public class ScoreService {
 
@@ -39,12 +40,12 @@ public class ScoreService {
 
     private List<GameResultDTO> calculateContributions(List<GameResultDTO> gameResultList) {
         for (GameResultDTO gameResult : gameResultList) {
-            double contribution = gameResult.getPosition() * DEFAULT_CONTRIBUTION;
+            double contribution = gameResult.getPosition().get() * DEFAULT_CONTRIBUTION;
             log.info("{} is at position {}. Contribution is {}", gameResult.getPlayerName(), gameResult.getPosition(), contribution);
-            gameResult.setContribution(contribution);
-            if (gameResult.getFinalScore() < MIN_SCORE_THRESHOLD) {
+            gameResult.getContribution().set(contribution);
+            if (gameResult.getFinalScore().intValue() < MIN_SCORE_THRESHOLD) {
                 log.info("{} has a score of {}. Is below the minimum threshold of {}. Adding 2.00", gameResult.getPlayerName(), gameResult.getFinalScore(), MIN_SCORE_THRESHOLD);
-                gameResult.setContribution(gameResult.getContribution() + PENALTY_LOW_SCORE);
+                gameResult.getContribution().set(gameResult.getContribution().get() + PENALTY_LOW_SCORE);
                 log.info("Contribution is now {}", gameResult.getContribution());
             }
         }

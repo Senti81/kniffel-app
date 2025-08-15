@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.coin.kniffel.controller.GameResultController">
+   <children>
+      <HBox prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <VBox prefHeight="400.0" prefWidth="200.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Jahr" />
+                        <ComboBox fx:id="comboBoxYear" prefWidth="150.0" promptText="Jahr auswählen">
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin>
+                        </ComboBox>
+                        <Label text="Spiel" />
+                        <ComboBox fx:id="comboBoxGameNumber" prefWidth="150.0" promptText="Spiel auswählen" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Button fx:id="buttonBack" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleClick" text="Zurück" textAlignment="CENTER" />
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </VBox>
+               </children>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox prefHeight="400.0" prefWidth="500.0">
+               <children>
+                  <TableView fx:id="tableGameResults" prefHeight="400.0" prefWidth="200.0">
+                    <columns>
+                      <TableColumn fx:id="columnPosition" prefWidth="50.0" text="Platz" />
+                      <TableColumn fx:id="columnName" prefWidth="150.0" text="Name" />
+                        <TableColumn fx:id="columnScore" prefWidth="75.0" text="Punkte" />
+                        <TableColumn fx:id="columnContribution" prefWidth="75.0" text="Betrag" />
+                    </columns>
+                  </TableView>
+               </children>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

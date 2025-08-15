@@ -92,9 +92,9 @@ public class ScoreRepository {
                 String playerName = resultSet.getString("name");
                 int finalScore = resultSet.getInt("score");
                 GameResultDTO gameResultDTO = new GameResultDTO();
-                gameResultDTO.setPosition(position);
-                gameResultDTO.setPlayerName(playerName);
-                gameResultDTO.setFinalScore(finalScore);
+                gameResultDTO.getPosition().set(position);
+                gameResultDTO.getPlayerName().set(playerName);
+                gameResultDTO.getFinalScore().set(finalScore);
                 gameResultDTOList.add(gameResultDTO);
             }
 
@@ -121,9 +121,9 @@ public class ScoreRepository {
                 String playerName = resultSet.getString("name");
                 int totalScore = resultSet.getInt("total_score");
                 GameResultDTO gameResultDTO = new GameResultDTO();
-                gameResultDTO.setPosition(position);
-                gameResultDTO.setPlayerName(playerName);
-                gameResultDTO.setFinalScore(totalScore);
+                gameResultDTO.getPosition().set(position);
+                gameResultDTO.getPlayerName().set(playerName);
+                gameResultDTO.getFinalScore().set(totalScore);
                 gameResultDTOList.add(gameResultDTO);
             }
 
