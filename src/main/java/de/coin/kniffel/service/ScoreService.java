@@ -1,9 +1,6 @@
 package de.coin.kniffel.service;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.List;
-import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +16,9 @@ public class ScoreService {
 
     private static final double DEFAULT_CONTRIBUTION = 1.50D;
     private static final double PENALTY_LOW_SCORE = 2.00D;
-    private static final int MIN_SCORE_THRESHOLD = 20;
-    private static final int MAX_SCORE_THRESHOLD = 500;
+    private static final double PENALTY_HIGH_SCORE = 0.50D;
+    private static final int MIN_SCORE_THRESHOLD = 200;
+    private static final int MAX_SCORE_THRESHOLD = 1000;
 
     private final ScoreRepository scoreRepository;
 
@@ -42,27 +40,51 @@ public class ScoreService {
 
     public void getResultsByGameId(int gameId) {
         List<ResultDTO> results = scoreRepository.getResultsByGameId(gameId);
-        for (ResultDTO result : results) {
-            updateContribution(result.getGameId(), result.getPlayerId(), (results.indexOf(result) + 1) * DEFAULT_CONTRIBUTION);
+
+        List<ResultDTO> updatedResults = calculateContributions(results);
+        for (ResultDTO result : updatedResults) {
+            setContribution(gameId, result.getPlayerId(), result.getContribution());
+            log.info("Contribution for game {} and player {} updated successfully", gameId, result.getPlayerId());
         }
     }
 
-    private void updateContribution(int gameId, int playerId, double contribution) {
+    private void setContribution(int gameId, int playerId, double contribution) {
+        log.info("Setting contribution for game {} and player {} with value {}", gameId, playerId, contribution);
         scoreRepository.updateContribution(gameId, playerId, contribution);
     }
 
-    private List<GameResultDTO> calculateContributions(List<GameResultDTO> gameResultList) {
-        for (GameResultDTO gameResult : gameResultList) {
-            double contribution = gameResult.getPosition().get() * DEFAULT_CONTRIBUTION;
-            log.info("{} is at position {}. Contribution is {}", gameResult.getPlayerName().get(), gameResult.getPosition().get(), contribution);
-            gameResult.getContribution().set(contribution);
-            if (gameResult.getFinalScore().intValue() < MIN_SCORE_THRESHOLD) {
-                log.info("{} has a score of {}. Is below the minimum threshold of {}. Adding 2.00", gameResult.getPlayerName().get(), gameResult.getFinalScore().get(), MIN_SCORE_THRESHOLD);
-                gameResult.getContribution().set(gameResult.getContribution().get() + PENALTY_LOW_SCORE);
-                log.info("Contribution is now {}", gameResult.getContribution());
+    private List<ResultDTO> calculateContributions(List<ResultDTO> results) {
+        // Loop through each ResultDTO to calculate individual contribution
+        for (ResultDTO result : results) {
+            // Calculate initial contribution based on default contribution and position
+            double contribution = (results.indexOf(result) + 1) * DEFAULT_CONTRIBUTION;
+
+            // Check if the player's score is below the minimum score threshold and apply penalty
+            if (result.getScore() < MIN_SCORE_THRESHOLD) {
+                contribution += PENALTY_LOW_SCORE;
+            }
+
+            // Update the contribution property of the player
+            result.setContribution(contribution);
+        }
+
+        // Check for players exceeding the maximum score threshold and adjust contributions for others
+        for (ResultDTO highScoringPlayer : results) {
+            if (highScoringPlayer.getScore() > MAX_SCORE_THRESHOLD) {
+                // High scorer identified, add bonus to all other players
+                for (ResultDTO otherPlayer : results) {
+                    if (otherPlayer.getPlayerId() != highScoringPlayer.getPlayerId()) {
+                        // Add bonus to every other player
+                        double updatedContribution = otherPlayer.getContribution() + PENALTY_HIGH_SCORE;
+                        otherPlayer.setContribution(updatedContribution);
+                    }
+                }
             }
         }
-        return gameResultList;
+
+        // Return the updated list of ResultDTO
+        return results;
     }
+
 
 }

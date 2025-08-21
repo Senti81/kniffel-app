@@ -23,7 +23,7 @@ public class ScoreRepository {
     private static final String UPDATE_CONTRIBUTION = "UPDATE Score SET contribution = ? WHERE game_id = ? AND player_id = ?";
 
     private static final String GET_RESULT_BY_GAME_ID = """
-            SELECT      GAME_ID, PLAYER_ID, SCORE
+            SELECT      GAME_ID, PLAYER_ID, SCORE, CONTRIBUTION
             FROM        Score
             WHERE       GAME_ID = ?
             ORDER BY    SCORE DESC;
@@ -103,7 +103,6 @@ public class ScoreRepository {
                 int finalScore = resultSet.getInt("score");
                 double contribution = resultSet.getDouble("contribution");
 
-                log.info("Found player {} with final score {} - Contribution: {}", playerName, finalScore, contribution);
                 GameResultDTO gameResultDTO = new GameResultDTO();
                 gameResultDTO.getPosition().set(position);
                 gameResultDTO.getPlayerName().set(playerName);
@@ -151,6 +150,14 @@ public class ScoreRepository {
         return gameResultDTOList;
     }
 
+    /**
+     * Retrieves a list of results for a specific game based on its ID.
+     *
+     * @param gameId the unique identifier of the game.
+     * @return a list of {@code ResultDTO} objects containing the game results.
+     *         Returns an empty list if no results are found or if an error occurs.
+     * @throws RuntimeException if a database access error occurs.
+     */
     public List<ResultDTO> getResultsByGameId(int gameId) {
         List<ResultDTO> resultDTOList = new ArrayList<>();
         try {
@@ -164,6 +171,7 @@ public class ScoreRepository {
                 resultDTO.setGameId(resultSet.getInt("game_id"));
                 resultDTO.setPlayerId(resultSet.getInt("player_id"));
                 resultDTO.setScore(resultSet.getInt("score"));
+                resultDTO.setContribution(resultSet.getDouble("contribution"));
                 resultDTOList.add(resultDTO);
             }
         } catch (SQLException e) {
