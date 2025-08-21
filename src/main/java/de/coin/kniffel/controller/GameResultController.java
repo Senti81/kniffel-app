@@ -1,6 +1,7 @@
 package de.coin.kniffel.controller;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -11,7 +12,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
@@ -22,14 +22,23 @@ public class GameResultController implements Initializable {
     public ComboBox<Integer> comboBoxYear;
     public ComboBox<Integer> comboBoxGameNumber;
 
+    // Current Game Table
     public TableView<GameResultDTO> tableGameResults;
     public TableColumn<GameResultDTO, Integer> columnPosition;
     public TableColumn<GameResultDTO, String> columnName;
     public TableColumn<GameResultDTO, Integer> columnScore;
     public TableColumn<GameResultDTO, Double> columnContribution;
 
+    // Current Season Table
+    public TableView<GameResultDTO> tableSeasonResults;
+    public TableColumn<GameResultDTO, Integer> columnSeasonPosition;
+    public TableColumn<GameResultDTO, String> columnSeasonName;
+    public TableColumn<GameResultDTO, Integer> columnSeasonScore;
+    public TableColumn<GameResultDTO, Double> columnSeasonContribution;
+
     private final GameService gameService = new GameService();
     private final ScoreService scoreService = new ScoreService();
+
     public Button buttonBack;
 
     private int selectedYear = 0;
@@ -39,6 +48,11 @@ public class GameResultController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         List<Integer> allGameYears = gameService.getAllGameYears();
         comboBoxYear.getItems().addAll(allGameYears);
+
+        List<GameResultDTO> totalScoreFromYear = scoreService.getSeasonResultsByYear(LocalDate.now().getYear());
+
+        tableSeasonResults.setItems(FXCollections.observableArrayList(totalScoreFromYear));
+
 
         comboBoxYear.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -67,6 +81,11 @@ public class GameResultController implements Initializable {
         columnName.setCellValueFactory(data -> data.getValue().playerNameProperty());
         columnScore.setCellValueFactory(data -> data.getValue().finalScoreProperty().asObject());
         columnContribution.setCellValueFactory(data -> data.getValue().contributionProperty().asObject());
+
+        columnSeasonPosition.setCellValueFactory(data -> data.getValue().positionProperty().asObject());
+        columnSeasonName.setCellValueFactory(data -> data.getValue().playerNameProperty());
+        columnSeasonScore.setCellValueFactory(data -> data.getValue().finalScoreProperty().asObject());
+        columnSeasonContribution.setCellValueFactory(data -> data.getValue().contributionProperty().asObject());
     }
 
     public void handleClick(ActionEvent actionEvent) {

@@ -37,13 +37,24 @@
             </VBox>
             <VBox prefHeight="400.0" prefWidth="500.0">
                <children>
-                  <TableView fx:id="tableGameResults" prefHeight="400.0" prefWidth="200.0">
+                  <TableView fx:id="tableGameResults" prefHeight="200.0" prefWidth="200.0">
                     <columns>
                       <TableColumn fx:id="columnPosition" prefWidth="50.0" text="Platz" />
                       <TableColumn fx:id="columnName" prefWidth="150.0" text="Name" />
                         <TableColumn fx:id="columnScore" prefWidth="75.0" text="Punkte" />
                         <TableColumn fx:id="columnContribution" prefWidth="75.0" text="Betrag" />
                     </columns>
+                     <VBox.margin>
+                        <Insets bottom="50.0" />
+                     </VBox.margin>
+                  </TableView>
+                  <TableView fx:id="tableSeasonResults" prefHeight="200.0" prefWidth="200.0">
+                     <columns>
+                        <TableColumn fx:id="columnSeasonPosition" prefWidth="50.0" text="Platz" />
+                        <TableColumn fx:id="columnSeasonName" prefWidth="150.0" text="Name" />
+                        <TableColumn fx:id="columnSeasonScore" prefWidth="75.0" text="Punkte" />
+                        <TableColumn fx:id="columnSeasonContribution" prefWidth="75.0" text="Betrag" />
+                     </columns>
                   </TableView>
                </children>
                <HBox.margin>

@@ -27,7 +27,10 @@ public class GameRepository {
     private static final String GET_ALL_GAME_NUMBER_BY_YEAR = "SELECT game_nr FROM GAME WHERE game_year = ?";
 
     private static final String FIND_BY_NUMBER_AND_YEAR = "SELECT * FROM GAME WHERE game_nr = ? AND game_year = ?";
-    private static final String FIND_LATEST_GAME_NR = "SELECT MAX(GAME_NR) as latest_game_nr FROM GAME WHERE GAME_YEAR = ?";
+    private static final String FIND_LATEST_GAME = """
+                        SELECT * FROM Game WHERE GAME_NR = (
+                        SELECT MAX(GAME_NR) FROM GAME WHERE GAME_YEAR = ?);
+                        """;
     private static final String INSERT_GAME = "INSERT INTO Game (game_nr, game_year, date, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
 
     public int save(Game game) {
@@ -143,24 +146,28 @@ public class GameRepository {
         }
     }
 
-    public int findLatestGameNumber() {
+    public GameDTO findLatestGame() {
         try {
             Connection connection = DatabaseUtil.getConnection();
-            PreparedStatement statement = connection.prepareStatement(FIND_LATEST_GAME_NR);
+            PreparedStatement statement = connection.prepareStatement(FIND_LATEST_GAME);
 
             statement.setInt(1, LocalDate.now().getYear());
             ResultSet result = statement.executeQuery();
 
             if (result.next()) {
-                log.info("Latest game number: {}", result.getInt("latest_game_nr"));
-                return result.getInt("latest_game_nr");
+                GameDTO gameDTO = new GameDTO();
+                gameDTO.setGameNumber(result.getInt("game_nr"));
+                gameDTO.setGameYear(result.getInt("game_year"));
+                gameDTO.setGameDate(result.getDate("date").toLocalDate());
+                log.info("Found game: {}", gameDTO);
+                return gameDTO;
             } else {
                 log.info("No games found for this year.");
-                return 0;
+                return null;
             }
         } catch (SQLException e) {
             log.error("Error while fetching game by number: {}", e.getMessage());
-            return -1;
+            return null;
         }
     }
 

@@ -1,14 +1,17 @@
 package de.coin.kniffel.service;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
+import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.coin.kniffel.model.Score;
 import de.coin.kniffel.model.dto.GameResultDTO;
+import de.coin.kniffel.model.dto.ResultDTO;
 import de.coin.kniffel.repository.ScoreRepository;
-import javafx.beans.property.DoubleProperty;
 
 public class ScoreService {
 
@@ -29,22 +32,32 @@ public class ScoreService {
         scoreRepository.save(score);
     }
 
-    public List<GameResultDTO> getTotalScoreFromYear(int year) {
-        return scoreRepository.getTotalScoreOfEachPlayerByYear(year);
+    public List<GameResultDTO> getSeasonResultsByYear(int year) {
+        return scoreRepository.getSeasonResultsByYear(year);
     }
 
     public List<GameResultDTO> getGameResultsByYearAndGameNumber(int year, int gameNumber) {
-        List<GameResultDTO> gameResultList = scoreRepository.getScoreOfEachPlayerByYearAndGame(year, gameNumber);
-        return calculateContributions(gameResultList);
+        return scoreRepository.getScoreOfEachPlayerByYearAndGame(year, gameNumber);
+    }
+
+    public void getResultsByGameId(int gameId) {
+        List<ResultDTO> results = scoreRepository.getResultsByGameId(gameId);
+        for (ResultDTO result : results) {
+            updateContribution(result.getGameId(), result.getPlayerId(), (results.indexOf(result) + 1) * DEFAULT_CONTRIBUTION);
+        }
+    }
+
+    private void updateContribution(int gameId, int playerId, double contribution) {
+        scoreRepository.updateContribution(gameId, playerId, contribution);
     }
 
     private List<GameResultDTO> calculateContributions(List<GameResultDTO> gameResultList) {
         for (GameResultDTO gameResult : gameResultList) {
             double contribution = gameResult.getPosition().get() * DEFAULT_CONTRIBUTION;
-            log.info("{} is at position {}. Contribution is {}", gameResult.getPlayerName(), gameResult.getPosition(), contribution);
+            log.info("{} is at position {}. Contribution is {}", gameResult.getPlayerName().get(), gameResult.getPosition().get(), contribution);
             gameResult.getContribution().set(contribution);
             if (gameResult.getFinalScore().intValue() < MIN_SCORE_THRESHOLD) {
-                log.info("{} has a score of {}. Is below the minimum threshold of {}. Adding 2.00", gameResult.getPlayerName(), gameResult.getFinalScore(), MIN_SCORE_THRESHOLD);
+                log.info("{} has a score of {}. Is below the minimum threshold of {}. Adding 2.00", gameResult.getPlayerName().get(), gameResult.getFinalScore().get(), MIN_SCORE_THRESHOLD);
                 gameResult.getContribution().set(gameResult.getContribution().get() + PENALTY_LOW_SCORE);
                 log.info("Contribution is now {}", gameResult.getContribution());
             }

@@ -13,6 +13,9 @@ import org.slf4j.LoggerFactory;
 import de.coin.kniffel.model.Game;
 import de.coin.kniffel.model.Player;
 import de.coin.kniffel.model.Score;
+import de.coin.kniffel.model.dto.GameDTO;
+import de.coin.kniffel.model.dto.GameResultDTO;
+import de.coin.kniffel.model.dto.ResultDTO;
 import de.coin.kniffel.service.GameService;
 import de.coin.kniffel.service.PlayerService;
 import de.coin.kniffel.service.ScoreService;
@@ -42,14 +45,26 @@ public class GameController implements Initializable {
 
     private final Map<Player, TextField> playerScoresMap = new HashMap<>();
 
+    LocalDate minGameDate = LocalDate.of(1990, 1, 1 );
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         List<Player> players = fetchUsersFromDatabase();
 
-        int determinedNewGameNumber = gameService.determineNewGameNumber();
+        GameDTO latestGame = gameService.getLatestGame();
 
-        gameNumberField.setText(String.valueOf(determinedNewGameNumber));
+        if (latestGame == null) {
+            log.info("No games found in database. Initializing with default values.");
+            latestGame = new GameDTO();
+            latestGame.setGameNumber(0);
+            latestGame.setGameYear(LocalDate.now().getYear());
+        } else {
+            minGameDate = latestGame.getGameDate().plusDays(1);
+        }
+
+        gameNumberField.setText(String.valueOf(latestGame.getGameNumber() + 1));
         gameYearField.setText(String.valueOf(LocalDate.now().getYear()));
+        datePicker.setPromptText("mind. " + minGameDate);
 
         for (int i = 0; i < players.size(); i++) {
             Player player = players.get(i);
@@ -65,7 +80,6 @@ public class GameController implements Initializable {
             playerGrid.getChildren().addAll(label, scoreField);
             System.out.println(scoreField.getText());
             playerScoresMap.put(player, scoreField);
-            log.info("Added player {} to the score map", player.getPlayerName());
         }
 
         backButton.setOnAction(e -> ((javafx.stage.Stage) backButton.getScene().getWindow()).close());
@@ -77,6 +91,11 @@ public class GameController implements Initializable {
         LocalDate gameDate = LocalDate.parse(
                 datePicker.getValue() != null ? datePicker.getValue().toString() : String.valueOf(LocalDate.now())
         );
+
+        if (gameDate.isBefore(minGameDate)) {
+            showAlert(Alert.AlertType.ERROR, "Fehler", "Das Datum muss nach dem letzten Spiel liegen. (" + minGameDate + ")");
+            return;
+        }
 
         Game gameToBeSaved = new Game();
         gameToBeSaved.setYear(gameYear);
@@ -106,8 +125,12 @@ public class GameController implements Initializable {
             }
         }
 
+
         log.info("Game with number {} saved successfully", gameNumber);
         showAlert(Alert.AlertType.INFORMATION, "Information", "Spiel erfolgreich gespeichert.");
+
+        // Calculate contribution for each player
+        scoreService.getResultsByGameId(newGameId);
 
         Stage currentStage = (Stage) gameNumberField.getScene().getWindow();
         currentStage.close();

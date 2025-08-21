@@ -31,6 +31,7 @@ public class DatabaseInitializer {
                 game_id INT NOT NULL,
                 player_id INT NOT NULL,
                 score INT NOT NULL CHECK (score >= 0),
+                contribution DOUBLE NOT NULL DEFAULT 0.00,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 PRIMARY KEY (player_id, game_id),

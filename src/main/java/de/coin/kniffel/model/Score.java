@@ -9,6 +9,7 @@ public class Score {
     private int gameId;
     private int playerId;
     private int finalScore;
+    private double contribution;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

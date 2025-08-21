@@ -35,14 +35,7 @@ public class GameService {
         return gameRepository.getAllGameNumbersByYear(year);
     }
 
-    public int getLatestGameNumber() {
-        return gameRepository.findLatestGameNumber();
-    }
-
-    public int determineNewGameNumber() {
-        log.info("Calculating most recent game number");
-        int newGameNumber = gameRepository.findLatestGameNumber() + 1;
-        log.info("Calculated new game number: {}", newGameNumber);
-        return newGameNumber;
+    public GameDTO getLatestGame() {
+        return gameRepository.findLatestGame();
     }
 }
