@@ -19,4 +19,14 @@ public class DatabaseUtil {
         return DriverManager.getConnection(DB_URL, USER, PASSWORD);
     }
 
+    public static void cleanDatabase() {
+        try (Connection connection = getConnection()) {
+            connection.createStatement().execute("DELETE FROM Player");
+            connection.createStatement().execute("DELETE FROM Game");
+            connection.createStatement().execute("DELETE FROM Score");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

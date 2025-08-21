@@ -53,7 +53,7 @@ public class ScoreService {
         scoreRepository.updateContribution(gameId, playerId, contribution);
     }
 
-    private List<ResultDTO> calculateContributions(List<ResultDTO> results) {
+    List<ResultDTO> calculateContributions(List<ResultDTO> results) {
         // Loop through each ResultDTO to calculate individual contribution
         for (ResultDTO result : results) {
             // Calculate initial contribution based on default contribution and position
