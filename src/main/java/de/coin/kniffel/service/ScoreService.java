@@ -2,17 +2,14 @@ package de.coin.kniffel.service;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.coin.kniffel.model.Score;
 import de.coin.kniffel.model.dto.GameResultDTO;
 import de.coin.kniffel.model.dto.ResultDTO;
 import de.coin.kniffel.repository.ScoreRepository;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class ScoreService {
-
-    private static final Logger log = LoggerFactory.getLogger(ScoreService.class);
 
     private static final double DEFAULT_CONTRIBUTION = 1.50D;
     private static final double PENALTY_LOW_SCORE = 2.00D;

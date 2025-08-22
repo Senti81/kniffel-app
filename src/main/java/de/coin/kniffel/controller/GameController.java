@@ -7,15 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.coin.kniffel.model.Game;
 import de.coin.kniffel.model.Player;
 import de.coin.kniffel.model.Score;
 import de.coin.kniffel.model.dto.GameDTO;
-import de.coin.kniffel.model.dto.GameResultDTO;
-import de.coin.kniffel.model.dto.ResultDTO;
 import de.coin.kniffel.service.GameService;
 import de.coin.kniffel.service.PlayerService;
 import de.coin.kniffel.service.ScoreService;
@@ -27,11 +22,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import javafx.stage.Window;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class GameController implements Initializable {
-
-    private static final Logger log = LoggerFactory.getLogger(GameController.class);
 
     private final PlayerService playerService = new PlayerService();
     private final GameService gameService = new GameService();

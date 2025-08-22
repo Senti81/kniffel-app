@@ -2,16 +2,14 @@ package de.coin.kniffel.service;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.coin.kniffel.model.Game;
 import de.coin.kniffel.model.dto.GameDTO;
 import de.coin.kniffel.repository.GameRepository;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class GameService {
 
-    private static final Logger log = LoggerFactory.getLogger(GameService.class);
     private final GameRepository gameRepository;
 
     public GameService() {

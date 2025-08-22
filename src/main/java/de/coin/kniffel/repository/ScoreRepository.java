@@ -7,17 +7,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.coin.kniffel.model.Score;
 import de.coin.kniffel.model.dto.GameResultDTO;
 import de.coin.kniffel.model.dto.ResultDTO;
 import de.coin.kniffel.util.DatabaseUtil;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class ScoreRepository {
-
-    private static final Logger log = LoggerFactory.getLogger(ScoreRepository.class);
 
     private static final String INSERT_SCORE = "INSERT INTO Score (game_id, player_id, score) VALUES (?, ?, ?)";
     private static final String UPDATE_CONTRIBUTION = "UPDATE Score SET contribution = ? WHERE game_id = ? AND player_id = ?";

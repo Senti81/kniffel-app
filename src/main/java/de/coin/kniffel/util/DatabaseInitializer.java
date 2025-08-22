@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class DatabaseInitializer {
 
     final static String createPlayer = """
@@ -53,10 +56,8 @@ public class DatabaseInitializer {
             statement.execute(createGame);
             statement.execute(createScore);
 
-            System.out.println("Database and table created successfully!");
-
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Error while initializing database: {}", e.getMessage());
         }
     }
 

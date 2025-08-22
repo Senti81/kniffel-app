@@ -17,7 +17,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class GameResultController implements Initializable {
     public ComboBox<Integer> comboBoxYear;
     public ComboBox<Integer> comboBoxGameNumber;

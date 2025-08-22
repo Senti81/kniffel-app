@@ -8,15 +8,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.coin.kniffel.model.Player;
 import de.coin.kniffel.util.DatabaseUtil;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class PlayerRepository{
-
-    private static final Logger log = LoggerFactory.getLogger(PlayerRepository.class);
 
     // --- SQL Queries ---
     private static final String SAVE_PLAYER = "INSERT INTO Player (name) VALUES (?)";

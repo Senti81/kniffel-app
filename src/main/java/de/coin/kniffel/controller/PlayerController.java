@@ -19,10 +19,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class PlayerController implements Initializable {
 
-    private static final Logger log = LoggerFactory.getLogger(PlayerController.class);
     public TableView<Player> playerTableView;
     public TableColumn<Player, Integer> idColumn;
     public TableColumn<Player, String> nameColumn;
