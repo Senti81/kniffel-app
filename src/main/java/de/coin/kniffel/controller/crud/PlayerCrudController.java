@@ -1,11 +1,8 @@
-package de.coin.kniffel.controller;
+package de.coin.kniffel.controller.crud;
 
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import de.coin.kniffel.model.Player;
 import de.coin.kniffel.service.PlayerService;
@@ -22,7 +19,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class PlayerController implements Initializable {
+public class PlayerCrudController implements Initializable {
 
     public TableView<Player> playerTableView;
     public TableColumn<Player, Integer> idColumn;

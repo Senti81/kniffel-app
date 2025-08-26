@@ -24,10 +24,6 @@ public class GameRepository {
     private static final String GET_ALL_GAME_NUMBER_BY_YEAR = "SELECT game_nr FROM GAME WHERE game_year = ?";
 
     private static final String FIND_BY_NUMBER_AND_YEAR = "SELECT * FROM GAME WHERE game_nr = ? AND game_year = ?";
-//    private static final String FIND_LATEST_GAME = """
-//                        SELECT * FROM Game WHERE GAME_NR = (
-//                        SELECT MAX(GAME_NR) FROM GAME WHERE GAME_YEAR = ?);
-//                        """;
     private static final String FIND_LATEST_GAME = "SELECT * FROM Game WHERE Id = (SELECT MAX(Id) FROM Game)";
     private static final String INSERT_GAME = "INSERT INTO Game (game_nr, game_year, date, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
 
@@ -148,8 +144,6 @@ public class GameRepository {
         try {
             Connection connection = DatabaseUtil.getConnection();
             PreparedStatement statement = connection.prepareStatement(FIND_LATEST_GAME);
-
-//            statement.setInt(1, LocalDate.now().getYear());
             ResultSet result = statement.executeQuery();
 
             if (result.next()) {

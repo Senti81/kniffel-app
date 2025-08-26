@@ -19,4 +19,6 @@ module de.coin.kniffel {
     exports de.coin.kniffel;
     exports de.coin.kniffel.service;
     opens de.coin.kniffel.service to javafx.fxml;
+    exports de.coin.kniffel.controller.crud;
+    opens de.coin.kniffel.controller.crud to javafx.fxml;
 }

@@ -1,4 +1,4 @@
-package de.coin.kniffel.controller;
+package de.coin.kniffel.controller.crud;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -12,7 +12,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class GameViewController implements Initializable {
+public class GameCrudController implements Initializable {
 
     public TableView<GameDTO> gameTableView;
     public TableColumn<GameDTO, Integer> numberColumn;

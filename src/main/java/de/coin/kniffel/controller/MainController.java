@@ -24,7 +24,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void handlePlayerManagement() {
-        switchScene("player-view.fxml", "Kniffel - Spieler");
+        switchScene("player-crud-view.fxml", "Kniffel - Spieler");
     }
 
     @FXML
@@ -34,7 +34,7 @@ public class MainController implements Initializable {
 
     @FXML
     public void handleGameView() {
-        switchScene("game-view.fxml", "Kniffel - Spiel");
+        switchScene("game-crud-view.fxml", "Kniffel - Spiel");
     }
 
     @FXML
