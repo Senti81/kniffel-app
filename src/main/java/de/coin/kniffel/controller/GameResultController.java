@@ -2,6 +2,7 @@ package de.coin.kniffel.controller;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -51,11 +52,6 @@ public class GameResultController implements Initializable {
         List<Integer> allGameYears = gameService.getAllGameYears();
         comboBoxYear.getItems().addAll(allGameYears);
 
-        List<GameResultDTO> totalScoreFromYear = scoreService.getSeasonResultsByYear(LocalDate.now().getYear());
-
-        tableSeasonResults.setItems(FXCollections.observableArrayList(totalScoreFromYear));
-
-
         comboBoxYear.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 selectedYear = newValue;
@@ -63,6 +59,8 @@ public class GameResultController implements Initializable {
                 comboBoxGameNumber.getItems().clear();
                 comboBoxGameNumber.getItems().addAll(allGameNumbersByYear);
             }
+            List<GameResultDTO> seasonResultsByYear = scoreService.getSeasonResultsByYear(selectedYear);
+            tableSeasonResults.setItems(FXCollections.observableArrayList(seasonResultsByYear));
         });
 
         comboBoxGameNumber.valueProperty().addListener((observableValue, oldValue, newValue) -> {

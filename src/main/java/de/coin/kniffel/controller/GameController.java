@@ -57,7 +57,7 @@ public class GameController implements Initializable {
         }
 
         gameNumberField.setText(String.valueOf(latestGame.getGameNumber() + 1));
-        gameYearField.setText(String.valueOf(LocalDate.now().getYear()));
+        gameYearField.setText(String.valueOf(latestGame.getGameYear()));
         datePicker.setPromptText("mind. " + minGameDate);
 
         for (int i = 0; i < players.size(); i++) {
@@ -83,7 +83,7 @@ public class GameController implements Initializable {
         int gameNumber = Integer.parseInt(gameNumberField.getText());
         int gameYear = Integer.parseInt(gameYearField.getText());
         LocalDate gameDate = LocalDate.parse(
-                datePicker.getValue() != null ? datePicker.getValue().toString() : String.valueOf(LocalDate.now())
+                datePicker.getValue() != null ? datePicker.getValue().toString() : String.valueOf(minGameDate)
         );
 
         if (gameDate.isBefore(minGameDate)) {
