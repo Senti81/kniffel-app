@@ -9,6 +9,8 @@ module de.coin.kniffel {
     requires jdk.jdi;
     requires org.slf4j;
     requires static lombok;
+    requires java.desktop;
+    requires itextpdf;
 
     opens de.coin.kniffel.model to javafx.fxml;
     opens de.coin.kniffel.controller to javafx.fxml;

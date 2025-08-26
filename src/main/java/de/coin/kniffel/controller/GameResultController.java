@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import de.coin.kniffel.model.dto.GameResultDTO;
 import de.coin.kniffel.service.GameService;
 import de.coin.kniffel.service.ScoreService;
+import de.coin.kniffel.util.PdfUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -43,6 +44,7 @@ public class GameResultController implements Initializable {
     private final ScoreService scoreService = new ScoreService();
 
     public Button buttonBack;
+    public Button buttonPrint;
 
     private int selectedYear = 0;
     private int selectedGameNumber = 0;
@@ -67,7 +69,6 @@ public class GameResultController implements Initializable {
             if (newValue != null) {
                 selectedGameNumber = newValue;
                 List<GameResultDTO> gameResultsByYearAndGameNumber = scoreService.getGameResultsByYearAndGameNumber(selectedYear, selectedGameNumber);
-                // Populate Table with GameResultDTO
                 ObservableList<GameResultDTO> gameResultDTOS = FXCollections.observableArrayList(gameResultsByYearAndGameNumber);
                 tableGameResults.setItems(gameResultDTOS);
             }
@@ -90,5 +91,9 @@ public class GameResultController implements Initializable {
 
     public void handleClick(ActionEvent actionEvent) {
         ((Stage) buttonBack.getScene().getWindow()).close();
+    }
+
+    public void handlePrint(ActionEvent actionEvent) {
+        PdfUtils.createPdf(tableGameResults, selectedYear, selectedGameNumber);
     }
 }
