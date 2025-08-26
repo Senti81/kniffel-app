@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<BorderPane
-        xmlns="http://javafx.com/javafx"
-        xmlns:fx="http://javafx.com/fxml"
-        fx:controller="de.coin.kniffel.controller.crud.GameCrudController"
->
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.coin.kniffel.controller.crud.GameCrudController">
 
     <center>
         <TableView fx:id="gameTableView" prefWidth="600">
             <columns>
-                <TableColumn fx:id="numberColumn" text="Nr" prefWidth="100" />
-                <TableColumn fx:id="yearColumn" text="Jahr" prefWidth="100" />
+            <TableColumn fx:id="idColumn" prefWidth="75.0" text="Id" />
+                <TableColumn fx:id="numberColumn" prefWidth="100" text="Nr" />
+                <TableColumn fx:id="yearColumn" prefWidth="100" text="Jahr" />
                 <TableColumn fx:id="dateColumn" text="Datum" />
             </columns>
         </TableView>
@@ -27,7 +22,8 @@
             <padding>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
             </padding>
-            <Button fx:id="backButton" text="Zurück" />
+            <Button fx:id="deleteButton" onAction="#handleDelete" text="Löschen" />
+         <Button fx:id="backButton" mnemonicParsing="false" text="Zurück" />
         </HBox>
     </bottom>
 

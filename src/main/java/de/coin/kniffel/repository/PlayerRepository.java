@@ -17,7 +17,7 @@ public class PlayerRepository{
 
     // --- SQL Queries ---
     private static final String SAVE_PLAYER = "INSERT INTO Player (name) VALUES (?)";
-    private static final String READ_ALL_PLAYERS = "SELECT * FROM Player";
+    private static final String FIND_ALL_PLAYERS = "SELECT * FROM Player";
     private static final String UPDATE_PLAYER = "UPDATE Player SET name = ? WHERE id = ?";
     private static final String DELETE_PLAYER = "DELETE FROM Player WHERE id = ?";
 
@@ -49,7 +49,7 @@ public class PlayerRepository{
 
         try {
             Connection connection = DatabaseUtil.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(READ_ALL_PLAYERS);
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_PLAYERS);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {

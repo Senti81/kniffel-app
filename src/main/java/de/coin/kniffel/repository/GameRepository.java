@@ -26,6 +26,7 @@ public class GameRepository {
     private static final String FIND_BY_NUMBER_AND_YEAR = "SELECT * FROM GAME WHERE game_nr = ? AND game_year = ?";
     private static final String FIND_LATEST_GAME = "SELECT * FROM Game WHERE Id = (SELECT MAX(Id) FROM Game)";
     private static final String INSERT_GAME = "INSERT INTO Game (game_nr, game_year, date, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
+    private static final String DELETE_GAME = "DELETE FROM Game WHERE Id = ?";
 
     public int save(Game game) {
         try {
@@ -86,23 +87,22 @@ public class GameRepository {
         return gameNumbers;
     }
 
-    public List<GameDTO> findAll() {
-        List<GameDTO> games = new ArrayList<>();
+    public List<Game> findAll() {
+        List<Game> games = new ArrayList<>();
+
         try {
             Connection connection = DatabaseUtil.getConnection();
             PreparedStatement statement = connection.prepareStatement(FIND_ALL_GAMES);
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                int gameNumber = resultSet.getInt("game_nr");
-                int gameYear = resultSet.getInt("game_year");
-                LocalDate gameDate = resultSet.getDate("date").toLocalDate();
+                Game game = new Game();
+                game.setGameId(resultSet.getInt("id"));
+                game.setNr(resultSet.getInt("game_nr"));
+                game.setYear(resultSet.getInt("game_year"));
+                game.setDate(resultSet.getDate("date").toLocalDate());
 
-                GameDTO gameDTO = new GameDTO();
-                gameDTO.setGameNumber(gameNumber);
-                gameDTO.setGameYear(gameYear);
-                gameDTO.setGameDate(gameDate);
-                games.add(gameDTO);
+                games.add(game);
             }
 
         } catch (SQLException e) {
@@ -160,6 +160,19 @@ public class GameRepository {
         } catch (SQLException e) {
             log.error("Error while fetching game by number: {}", e.getMessage());
             return null;
+        }
+    }
+
+    public void delete(Game game) {
+        try {
+            Connection connection = DatabaseUtil.getConnection();
+            PreparedStatement statement = connection.prepareStatement(DELETE_GAME);
+
+            statement.setInt(1, game.getGameId());
+            statement.execute();
+            log.info("Game {} deleted successfully", game.getGameId());
+        } catch (SQLException e) {
+            log.error("Error while deleting game: {}", e.getMessage());
         }
     }
 

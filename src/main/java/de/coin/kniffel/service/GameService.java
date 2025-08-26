@@ -21,7 +21,7 @@ public class GameService {
         return foundByNumberAndYear != null ? -1 : gameRepository.save(game);
     }
 
-    public List<GameDTO> getAllGames() {
+    public List<Game> getAllGames() {
         return gameRepository.findAll();
     }
 
@@ -35,5 +35,9 @@ public class GameService {
 
     public GameDTO getLatestGame() {
         return gameRepository.findLatestGame();
+    }
+
+    public void deleteGame(Game game) {
+        gameRepository.delete(game);
     }
 }
