@@ -29,7 +29,6 @@ public class PlayerService {
 
     public void updatePlayer(Player player, String newName) {
         player.setPlayerName(newName);
-        player.setUpdatedAt(LocalDateTime.now());
         playerRepository.update(player);
     }
 

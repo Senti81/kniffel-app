@@ -91,10 +91,10 @@ public class GameController implements Initializable {
             return;
         }
 
-        Game gameToBeSaved = new Game();
-        gameToBeSaved.setYear(gameYear);
-        gameToBeSaved.setNr(gameNumber);
-        gameToBeSaved.setDate(gameDate);
+        Game gameToBeSaved = new Game(gameYear, gameNumber, gameDate);
+//        gameToBeSaved.setYear(gameYear);
+//        gameToBeSaved.setNr(gameNumber);
+//        gameToBeSaved.setDate(gameDate);
 
         int newGameId = gameService.saveGame(gameToBeSaved);
         if (newGameId == -1) {

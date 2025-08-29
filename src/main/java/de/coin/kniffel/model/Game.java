@@ -11,7 +11,6 @@ import lombok.Setter;
 public class Game {
 
     private final IntegerProperty gameId = new SimpleIntegerProperty();
-//    private int id;
 
     @Getter
     @Setter
@@ -35,11 +34,12 @@ public class Game {
 
     public Game() {}
 
-    public Game(int year, LocalDate date) {
+    public Game(int year, int nr, LocalDate date) {
         this.year = year;
+        this.nr = nr;
         this.date = date;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+//        this.createdAt = LocalDateTime.now();
+//        this.updatedAt = LocalDateTime.now();
     }
 
     public int getGameId() {
@@ -50,7 +50,4 @@ public class Game {
         this.gameId.set(gameId);
     }
 
-    public IntegerProperty gameIdProperty() {
-        return gameId;
-    }
 }

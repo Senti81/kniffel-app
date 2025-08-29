@@ -24,8 +24,6 @@ public class Player {
 
     public Player(String name) {
         this.playerName.set(name);
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
     }
 
     public int getPlayerId() {
@@ -42,14 +40,6 @@ public class Player {
 
     public void setPlayerName(String playerName) {
         this.playerName.set(playerName);
-    }
-
-    public IntegerProperty playerIdProperty() {
-        return playerId;
-    }
-
-    public StringProperty playerNameProperty() {
-        return playerName;
     }
 
 }
