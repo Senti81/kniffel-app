@@ -3,6 +3,9 @@
 The **Kniffel Game Application** is a Java-based application. It serves as the entry point for the Kniffel game, a dice game similar to Yahtzee. This project organizes and manages the functionality required to implement and play the Kniffel game.
 
 ---
+ Link to Releases:
+ https://github.com/Senti81/kniffel-app/releases/tag/test
+---
 
 ## Table of Contents
 
@@ -11,8 +14,6 @@ The **Kniffel Game Application** is a Java-based application. It serves as the e
 3. [Features](#features)
 4. [Technologies Used](#technologies-used)
 5. [Project Structure](#project-structure)
-6. [Contribution](#contribution)
-7. [License](#license)
 
 ---
 
