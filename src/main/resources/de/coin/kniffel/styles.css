@@ -1,0 +1,12 @@
+.title-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2a5298;
+    -fx-padding: 20px;
+    -fx-alignment: center;
+}
+
+.menu-button {
+    -fx-pref-width: 200px;
+    -fx-pref-height: 30px;
+}
