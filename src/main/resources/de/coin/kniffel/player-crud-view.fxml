@@ -11,8 +11,8 @@
             <columns>
                 <TableColumn fx:id="idColumn" prefWidth="50.0" text="ID" />
                 <TableColumn fx:id="nameColumn" prefWidth="150.0" text="Name" />
-                <TableColumn fx:id="createdAtColumn" prefWidth="200.0" text="Created At" />
-                <TableColumn fx:id="updatedAtColumn" prefWidth="200.0" text="Updated At" />
+                <TableColumn fx:id="createdAtColumn" prefWidth="200.0" text="Erstellt" />
+                <TableColumn fx:id="updatedAtColumn" prefWidth="200.0" text="Aktualisiert" />
             </columns>
          <BorderPane.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -25,7 +25,7 @@
             <padding>
                 <Insets bottom="20.0" left="10.0" right="10.0" top="20.0" />
             </padding>
-            <TextField fx:id="nameField" promptText="Player Name" />
+            <TextField fx:id="nameField" promptText="Spieler Name" />
             <Button onAction="#handleAddPlayer" prefWidth="100" text="Hinzufügen" />
             <Button onAction="#handleUpdatePlayer" prefWidth="100" text="Aktualisieren" />
             <Button onAction="#handleDeletePlayer" text="Löschen" />

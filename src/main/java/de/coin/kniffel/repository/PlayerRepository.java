@@ -5,11 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import de.coin.kniffel.model.Player;
 import de.coin.kniffel.util.DatabaseUtil;
+import de.coin.kniffel.util.DateTimeUtils;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -56,8 +58,8 @@ public class PlayerRepository{
                 Player player = new Player();
                 player.setPlayerId(resultSet.getInt("id"));
                 player.setPlayerName(resultSet.getString("name"));
-                player.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
-                player.setUpdatedAt(resultSet.getTimestamp("updated_at").toLocalDateTime());
+                player.setCreatedAt(DateTimeUtils.DATE_FORMATTER.format(resultSet.getTimestamp("created_at").toLocalDateTime()));
+                player.setUpdatedAt(DateTimeUtils.DATE_FORMATTER.format(resultSet.getTimestamp("updated_at").toLocalDateTime()));
 
                 players.add(player);
             }

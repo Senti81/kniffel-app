@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import de.coin.kniffel.model.Game;
@@ -14,9 +15,11 @@ import de.coin.kniffel.model.dto.GameDTO;
 import de.coin.kniffel.service.GameService;
 import de.coin.kniffel.service.PlayerService;
 import de.coin.kniffel.service.ScoreService;
+import de.coin.kniffel.util.DialogUtils;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -85,16 +88,47 @@ public class GameController implements Initializable {
         LocalDate gameDate = LocalDate.parse(
                 datePicker.getValue() != null ? datePicker.getValue().toString() : String.valueOf(minGameDate)
         );
-
         if (gameDate.isBefore(minGameDate)) {
             showAlert(Alert.AlertType.ERROR, "Fehler", "Das Datum muss nach dem letzten Spiel liegen. (" + minGameDate + ")");
             return;
         }
+        String confirmationMessage = buildConfirmationMessage(gameNumber, gameYear, gameDate);
+        Optional<ButtonType> result = DialogUtils.showConfirmationDialog(confirmationMessage);
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            saveGameData(gameNumber, gameYear, gameDate);
+        } else {
+            log.info("Save cancelled by user");
+        }
+    }
 
+    private List<Player> fetchUsersFromDatabase() {
+        return playerService.getAllPlayers();
+    }
+
+    private String buildConfirmationMessage(int gameNumber, int gameYear, LocalDate gameDate) {
+        StringBuilder confirmationMessage = new StringBuilder();
+        confirmationMessage.append("Spiel-Nr.: ").append(gameNumber).append("\n");
+        confirmationMessage.append("Spiel Jahr: ").append(gameYear).append("\n");
+        confirmationMessage.append("Spiel Datum: ").append(gameDate).append("\n");
+
+        confirmationMessage.append("\nSpieler Punkte:\n");
+        playerScoresMap.forEach((player, scoreField) -> {
+            String score = scoreField.getText().isEmpty() ? "0" : scoreField.getText();
+            confirmationMessage.append(player.getPlayerName()).append(": ").append(score).append("\n");
+        });
+
+        return confirmationMessage.toString();
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    private void saveGameData(int gameNumber, int gameYear, LocalDate gameDate) {
         Game gameToBeSaved = new Game(gameYear, gameNumber, gameDate);
-//        gameToBeSaved.setYear(gameYear);
-//        gameToBeSaved.setNr(gameNumber);
-//        gameToBeSaved.setDate(gameDate);
 
         int newGameId = gameService.saveGame(gameToBeSaved);
         if (newGameId == -1) {
@@ -128,25 +162,5 @@ public class GameController implements Initializable {
 
         Stage currentStage = (Stage) gameNumberField.getScene().getWindow();
         currentStage.close();
-
-    }
-
-    /**
-     * Retrieves a list of all players from the database.
-     *
-     * @return a list of Player objects representing all users stored in the database
-     */
-    private List<Player> fetchUsersFromDatabase() {
-        return playerService.getAllPlayers();
-    }
-
-    /**
-     * Utility function to show alerts.
-     */
-    public void showAlert(Alert.AlertType alertType, String title, String content) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setContentText(content);
-        alert.showAndWait();
     }
 }

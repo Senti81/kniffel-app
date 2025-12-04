@@ -11,11 +11,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ScoreService {
 
-    private static final double DEFAULT_CONTRIBUTION = 1.50D;
-    private static final double PENALTY_LOW_SCORE = 2.00D;
-    private static final double PENALTY_HIGH_SCORE = 0.50D;
-    private static final int MIN_SCORE_THRESHOLD = 200;
-    private static final int MAX_SCORE_THRESHOLD = 1000;
+    private static final List<Double> DEFAULT_CONTRIBUTION = List.of(3.50D, 4.00D, 4.50D, 5.00D);
+
+    private static final double PENALTY_LOW_SCORE = 3.00D;
+    private static final double PENALTY_HIGH_SCORE = 1.00D;
+    private static final int MIN_SCORE_THRESHOLD = 800;
+    private static final int MAX_SCORE_THRESHOLD = 1300;
 
     private final ScoreRepository scoreRepository;
 
@@ -54,7 +55,7 @@ public class ScoreService {
         // Loop through each ResultDTO to calculate individual contribution
         for (ResultDTO result : results) {
             // Calculate initial contribution based on default contribution and position
-            double contribution = (results.indexOf(result) + 1) * DEFAULT_CONTRIBUTION;
+            double contribution = DEFAULT_CONTRIBUTION.get(results.indexOf(result));
 
             // Check if the player's score is below the minimum score threshold and apply penalty
             if (result.getScore() < MIN_SCORE_THRESHOLD) {
@@ -67,7 +68,7 @@ public class ScoreService {
 
         // Check for players exceeding the maximum score threshold and adjust contributions for others
         for (ResultDTO highScoringPlayer : results) {
-            if (highScoringPlayer.getScore() > MAX_SCORE_THRESHOLD) {
+            if (highScoringPlayer.getScore() >= MAX_SCORE_THRESHOLD) {
                 // High scorer identified, add bonus to all other players
                 for (ResultDTO otherPlayer : results) {
                     if (otherPlayer.getPlayerId() != highScoringPlayer.getPlayerId()) {

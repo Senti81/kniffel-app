@@ -15,10 +15,10 @@ public class Player {
     private final StringProperty playerName = new SimpleStringProperty();
     @Setter
     @Getter
-    private LocalDateTime createdAt;
+    private String createdAt;
     @Setter
     @Getter
-    private LocalDateTime updatedAt;
+    private String updatedAt;
 
     public Player() {}
 
