@@ -38,7 +38,6 @@ public class GameController implements Initializable {
     public TextField gameYearField;
     public DatePicker datePicker;
     public GridPane playerGrid;
-    public Button backButton;
 
     private final Map<Player, TextField> playerScoresMap = new HashMap<>();
 
@@ -66,20 +65,19 @@ public class GameController implements Initializable {
         for (int i = 0; i < players.size(); i++) {
             Player player = players.get(i);
             Label label = new Label(player.getPlayerName());
+            label.getStyleClass().add("player-label");
             GridPane.setRowIndex(label, i + 3);
             GridPane.setColumnIndex(label, 0);
 
             TextField scoreField = new TextField();
             scoreField.setPromptText("Punkte");
+            scoreField.getStyleClass().add("player-text-field");
             GridPane.setRowIndex(scoreField, i + 3);
             GridPane.setColumnIndex(scoreField, 1);
 
             playerGrid.getChildren().addAll(label, scoreField);
-            System.out.println(scoreField.getText());
             playerScoresMap.put(player, scoreField);
         }
-
-        backButton.setOnAction(e -> ((javafx.stage.Stage) backButton.getScene().getWindow()).close());
     }
 
     public void handleSubmit() {
@@ -153,14 +151,13 @@ public class GameController implements Initializable {
             }
         }
 
-
         log.info("Game with number {} saved successfully", gameNumber);
         showAlert(Alert.AlertType.INFORMATION, "Information", "Spiel erfolgreich gespeichert.");
 
         // Calculate contribution for each player
         scoreService.getResultsByGameId(newGameId);
+        
+        initialize(null, null);
 
-        Stage currentStage = (Stage) gameNumberField.getScene().getWindow();
-        currentStage.close();
     }
 }

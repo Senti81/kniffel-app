@@ -23,7 +23,6 @@ public class GameCrudController extends AbstractCrudController<Game> implements 
     public TableColumn<Game, Integer> yearColumn;
     public TableColumn<Game, LocalDate> dateColumn;
     public Button backButton;
-    public Button deleteButton;
 
     private final GameService service = new GameService();
 
@@ -36,8 +35,6 @@ public class GameCrudController extends AbstractCrudController<Game> implements 
 
         itemList = FXCollections.observableArrayList(service.getAllGames());
         gameTableView.setItems(itemList);
-
-        backButton.setOnAction(e -> ((javafx.stage.Stage) backButton.getScene().getWindow()).close());
     }
 
     public void handleDelete(ActionEvent actionEvent) {

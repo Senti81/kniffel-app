@@ -9,37 +9,33 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.Node;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-public class MainController implements Initializable {
+public class MainController {
 
-    private Stage stage;
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        stage = new Stage();
-    }
+    @FXML
+    private BorderPane rootPane;
 
     @FXML
     private void handlePlayerManagement() {
-        switchScene("player-crud-view.fxml", "Kniffel - Spieler");
+        loadView("player-crud-view.fxml", "Kniffel - Spieler");
     }
 
     @FXML
     private void handleScoreManagement() {
-        switchScene("add-game-view.fxml", "Kniffel - Spiel");
+        loadView("add-game-view.fxml", "Kniffel - Spiel");
     }
 
     @FXML
     public void handleGameView() {
-        switchScene("game-crud-view.fxml", "Kniffel - Spiel");
+        loadView("game-crud-view.fxml", "Kniffel - Spiel");
     }
 
     @FXML
     private void handleScoreView()  {
-        switchScene("game-result-view.fxml", "Kniffel - Score");
+        loadView("game-result-view.fxml", "Kniffel - Score");
     }
 
     /**
@@ -47,14 +43,11 @@ public class MainController implements Initializable {
      *
      * @param fxmlPath the path to the FXML file for the scene
      */
-    private void switchScene(String fxmlPath, String title) {
+    private void loadView(String fxmlPath, String title) {
         final String prefix = "/de/coin/kniffel/";
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(prefix + fxmlPath)));
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setTitle(title);
-            stage.show();
+            Node view = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(prefix + fxmlPath)));
+            rootPane.setCenter(view);
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Error: Could not load the FXML file: " + fxmlPath);

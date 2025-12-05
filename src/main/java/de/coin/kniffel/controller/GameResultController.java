@@ -43,7 +43,6 @@ public class GameResultController implements Initializable {
     private final GameService gameService = new GameService();
     private final ScoreService scoreService = new ScoreService();
 
-    public Button buttonBack;
     public Button buttonPrint;
 
     private int selectedYear = 0;
@@ -87,10 +86,6 @@ public class GameResultController implements Initializable {
         columnSeasonName.setCellValueFactory(data -> data.getValue().playerNameProperty());
         columnSeasonScore.setCellValueFactory(data -> data.getValue().finalScoreProperty().asObject());
         columnSeasonContribution.setCellValueFactory(data -> data.getValue().contributionProperty().asObject());
-    }
-
-    public void handleClick(ActionEvent actionEvent) {
-        ((Stage) buttonBack.getScene().getWindow()).close();
     }
 
     public void handlePrint(ActionEvent actionEvent) {

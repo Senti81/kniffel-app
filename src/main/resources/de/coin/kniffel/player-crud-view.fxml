@@ -29,7 +29,6 @@
             <Button onAction="#handleAddPlayer" prefWidth="100" text="Hinzufügen" />
             <Button onAction="#handleUpdatePlayer" prefWidth="100" text="Aktualisieren" />
             <Button onAction="#handleDeletePlayer" text="Löschen" />
-            <Button fx:id="backButton" text="Zurück" />
         </HBox>
     </bottom>
 

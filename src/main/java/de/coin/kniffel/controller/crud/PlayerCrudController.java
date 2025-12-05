@@ -27,7 +27,6 @@ public class PlayerCrudController extends AbstractCrudController<Player> impleme
     public TableColumn<Player, LocalDate> createdAtColumn;
     public TableColumn<Player, LocalDate> updatedAtColumn;
     public TextField nameField;
-    public Button backButton;
 
     private final PlayerService service = new PlayerService();
 
@@ -40,8 +39,6 @@ public class PlayerCrudController extends AbstractCrudController<Player> impleme
 
         itemList = FXCollections.observableArrayList(service.getAllPlayers());
         playerTableView.setItems(itemList);
-
-        backButton.setOnAction(e -> ((javafx.stage.Stage) backButton.getScene().getWindow()).close());
     }
 
     public void handleAddPlayer(ActionEvent actionEvent) {

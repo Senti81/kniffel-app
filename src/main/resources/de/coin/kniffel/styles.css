@@ -49,3 +49,16 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0, 2, 4);
 }
 
+/* Label styles */
+.player-label {
+    -fx-font-size: 16px;
+    -fx-text-fill: #333333; /* Dark gray for modern look */
+}
+
+/* TextField styles */
+.player-text-field {
+    -fx-font-size: 16px;
+    -fx-min-width: 200px;
+    -fx-padding: 5px;
+}
+

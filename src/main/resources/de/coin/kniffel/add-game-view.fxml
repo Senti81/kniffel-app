@@ -8,25 +8,28 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import java.net.URL?>
 <BorderPane
-
         xmlns="http://javafx.com/javafx"
         xmlns:fx="http://javafx.com/fxml"
         prefHeight="400.0" prefWidth="600.0"
         fx:controller="de.coin.kniffel.controller.GameController">
 
-    <!-- Center content: The main grid layout -->
+    <stylesheets>
+        <URL value="@styles.css"/>
+    </stylesheets>
+
     <center>
-        <GridPane fx:id="playerGrid" alignment="TOP_LEFT" hgap="10" vgap="10">
+        <GridPane fx:id="playerGrid" alignment="CENTER" hgap="10" vgap="10">
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
-            <Label text="Spielnr:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-            <TextField fx:id="gameNumberField" GridPane.rowIndex="0" GridPane.columnIndex="1" />
-            <Label text="Spiejahr" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-            <TextField fx:id="gameYearField" GridPane.rowIndex="1" GridPane.columnIndex="1" />
-            <Label text="Datum:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-            <DatePicker fx:id="datePicker" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+            <Label text="Spielnr:" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="player-label"/>
+            <TextField fx:id="gameNumberField" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="player-text-field"/>
+            <Label text="Spiejahr" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="player-label"/>
+            <TextField fx:id="gameYearField" GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="player-text-field"/>
+            <Label text="Datum:" GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="player-label"/>
+            <DatePicker fx:id="datePicker" GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="player-text-field"/>
         </GridPane>
     </center>
 
@@ -37,7 +40,6 @@
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
             <Button text="Eintragen" onAction="#handleSubmit" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
-            <Button text="Zurück" fx:id="backButton" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
         </HBox>
     </bottom>
 
