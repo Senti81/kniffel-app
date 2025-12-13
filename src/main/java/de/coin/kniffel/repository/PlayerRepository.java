@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,8 +57,8 @@ public class PlayerRepository{
                 Player player = new Player();
                 player.setPlayerId(resultSet.getInt("id"));
                 player.setPlayerName(resultSet.getString("name"));
-                player.setCreatedAt(DateTimeUtils.DATE_FORMATTER.format(resultSet.getTimestamp("created_at").toLocalDateTime()));
-                player.setUpdatedAt(DateTimeUtils.DATE_FORMATTER.format(resultSet.getTimestamp("updated_at").toLocalDateTime()));
+                player.setCreatedAt(DateTimeUtils.DATE_TIME_FORMATTER.format(resultSet.getTimestamp("created_at").toLocalDateTime()));
+                player.setUpdatedAt(DateTimeUtils.DATE_TIME_FORMATTER.format(resultSet.getTimestamp("updated_at").toLocalDateTime()));
 
                 players.add(player);
             }

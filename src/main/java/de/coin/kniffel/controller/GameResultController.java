@@ -1,8 +1,6 @@
 package de.coin.kniffel.controller;
 
 import java.net.URL;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -18,7 +16,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -89,6 +86,6 @@ public class GameResultController implements Initializable {
     }
 
     public void handlePrint(ActionEvent actionEvent) {
-        PdfUtils.createPdf(tableGameResults, selectedYear, selectedGameNumber);
+        PdfUtils.createPdf(tableGameResults, tableSeasonResults, selectedYear, selectedGameNumber);
     }
 }

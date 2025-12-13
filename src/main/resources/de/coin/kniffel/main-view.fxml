@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.image.ImageView?>
 <BorderPane fx:id="rootPane" prefHeight="600" prefWidth="800" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.coin.kniffel.controller.MainController">
     <top>
         <VBox>
@@ -25,7 +26,7 @@
 
     <center>
         <HBox alignment="CENTER">
-            <Label text="Welcome to Kniffel!" />
+            <Label text="Kniffel!" />
         </HBox>
     </center>
 </BorderPane>

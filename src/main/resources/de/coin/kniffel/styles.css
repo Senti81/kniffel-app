@@ -51,13 +51,13 @@
 
 /* Label styles */
 .player-label {
-    -fx-font-size: 16px;
+    -fx-font-size: 18px;
     -fx-text-fill: #333333; /* Dark gray for modern look */
 }
 
 /* TextField styles */
 .player-text-field {
-    -fx-font-size: 16px;
+    -fx-font-size: 18px;
     -fx-min-width: 200px;
     -fx-padding: 5px;
 }
