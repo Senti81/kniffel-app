@@ -16,7 +16,7 @@ public class KniffelApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        Image image = new Image(getClass().getResource("/de/coin/kniffel/logo.png").toExternalForm());
+        Image image = new Image(Objects.requireNonNull(getClass().getResource("/de/coin/kniffel/logo.png")).toExternalForm());
         ImageView imageView = new ImageView(image);
 
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("main-view.fxml")));

@@ -2,7 +2,6 @@ package de.coin.kniffel.util;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -69,9 +68,7 @@ public class PdfUtils {
 
             // Create a mapping of game results by name for easy lookup
             Map<String, GameResultDTO> gameResultsMap = new HashMap<>();
-            gameResultDTOTableView.getItems().forEach(gameResult -> {
-                gameResultsMap.put(gameResult.getPlayerName().get(), gameResult);
-            });
+            gameResultDTOTableView.getItems().forEach(gameResult -> gameResultsMap.put(gameResult.getPlayerName().get(), gameResult));
 
             // Merge data: Use season data to drive the table and enrich with game data
             seasonResultDTOTableView.getItems().stream()
