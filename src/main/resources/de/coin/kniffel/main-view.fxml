@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
 <BorderPane fx:id="rootPane" prefHeight="600" prefWidth="800" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.coin.kniffel.controller.MainController">
     <top>
         <VBox>
             <MenuBar>
                 <Menu text="Datei">
                     <MenuItem onAction="#handlePlayerManagement" text="Spieler verwalten" />
-                    <SeparatorMenuItem/>
+                    <SeparatorMenuItem />
                     <MenuItem onAction="#handleExit" text="Beenden" />
                 </Menu>
                 <Menu text="Spiel">
@@ -30,7 +26,9 @@
 
     <center>
         <HBox alignment="CENTER">
-            <Label text="Kniffel!" />
+            <ImageView fitHeight="470.0" fitWidth="545.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@logo.png"/>
+            </ImageView>
         </HBox>
     </center>
 </BorderPane>

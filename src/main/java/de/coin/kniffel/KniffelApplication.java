@@ -7,18 +7,12 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 public class KniffelApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-        Image image = new Image(Objects.requireNonNull(getClass().getResource("/de/coin/kniffel/logo.png")).toExternalForm());
-        ImageView imageView = new ImageView(image);
-
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("main-view.fxml")));
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
