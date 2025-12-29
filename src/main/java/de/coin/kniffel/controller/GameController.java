@@ -62,6 +62,8 @@ public class GameController implements Initializable {
         gameYearField.setText(String.valueOf(latestGame.getGameYear()));
         datePicker.setPromptText("mind. " + minGameDate);
 
+        playerScoresMap.clear();
+
         for (int i = 0; i < players.size(); i++) {
             Player player = players.get(i);
             Label label = new Label(player.getPlayerName());

@@ -1,5 +1,7 @@
 package de.coin.kniffel.service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import de.coin.kniffel.model.Game;
@@ -31,6 +33,10 @@ public class GameService {
 
     public List<Integer> getAllGameNumbersByYear(int year) {
         return gameRepository.getAllGameNumbersByYear(year);
+    }
+
+    public LocalDate getGameDateByYearAndNumber(int year, int gameNumber) {
+        return gameRepository.getGameDateByYearAndNumber(year, gameNumber);
     }
 
     public GameDTO getLatestGame() {

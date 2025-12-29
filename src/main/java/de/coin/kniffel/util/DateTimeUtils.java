@@ -1,5 +1,6 @@
 package de.coin.kniffel.util;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class DateTimeUtils {
@@ -14,5 +15,9 @@ public class DateTimeUtils {
 
     public static String getCurrentDate() {
         return getCurrentDate(false);
+    }
+
+    public static String formatDate(LocalDate date) {
+        return DATE_FORMATTER.format(date);
     }
 }

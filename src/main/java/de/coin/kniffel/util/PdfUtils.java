@@ -2,6 +2,7 @@ package de.coin.kniffel.util;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +28,8 @@ public class PdfUtils {
             TableView<GameResultDTO> gameResultDTOTableView,
             TableView<GameResultDTO> seasonResultDTOTableView,
             int year,
-            int gameNumber) {
+            int gameNumber,
+            LocalDate gameDate) {
         log.info("Creating PDF...");
         try {
             Document document = new Document(PageSize.A4.rotate());
@@ -44,7 +46,7 @@ public class PdfUtils {
             metaDataTable.setWidthPercentage(100);
             metaDataTable.setWidths(new float[]{1, 1, 2, 1, 1, 1});
             metaDataTable.addCell(createCell("Datum", titleFont, PdfPCell.ALIGN_LEFT));
-            metaDataTable.addCell(createCell(DateTimeUtils.getCurrentDate(), titleFont, PdfPCell.ALIGN_RIGHT));
+            metaDataTable.addCell(createCell(DateTimeUtils.formatDate(gameDate), titleFont, PdfPCell.ALIGN_RIGHT));
             metaDataTable.addCell(createCell("Kniffelliga ", titleFont, PdfPCell.ALIGN_LEFT));
             metaDataTable.addCell(createCell(String.valueOf(year), titleFont, PdfPCell.ALIGN_CENTER));
             metaDataTable.addCell(createCell("Spiel", titleFont, PdfPCell.ALIGN_CENTER));

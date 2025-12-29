@@ -1,6 +1,7 @@
 package de.coin.kniffel.controller;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -44,6 +45,7 @@ public class GameResultController implements Initializable {
 
     private int selectedYear = 0;
     private int selectedGameNumber = 0;
+    private LocalDate selectedGameDate;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -64,6 +66,7 @@ public class GameResultController implements Initializable {
         comboBoxGameNumber.valueProperty().addListener((observableValue, oldValue, newValue) -> {
             if (newValue != null) {
                 selectedGameNumber = newValue;
+                selectedGameDate = gameService.getGameDateByYearAndNumber(selectedYear, selectedGameNumber);
                 List<GameResultDTO> gameResultsByYearAndGameNumber = scoreService.getGameResultsByYearAndGameNumber(selectedYear, selectedGameNumber);
                 ObservableList<GameResultDTO> gameResultDTOS = FXCollections.observableArrayList(gameResultsByYearAndGameNumber);
                 tableGameResults.setItems(gameResultDTOS);
@@ -86,6 +89,6 @@ public class GameResultController implements Initializable {
     }
 
     public void handlePrint(ActionEvent actionEvent) {
-        PdfUtils.createPdf(tableGameResults, tableSeasonResults, selectedYear, selectedGameNumber);
+        PdfUtils.createPdf(tableGameResults, tableSeasonResults, selectedYear, selectedGameNumber, selectedGameDate);
     }
 }

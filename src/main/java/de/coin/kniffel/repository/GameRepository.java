@@ -22,7 +22,7 @@ public class GameRepository {
     private static final String FIND_ALL_GAMES = "SELECT * FROM Game";
     private static final String GET_ALL_GAME_YEARS = "SELECT DISTINCT (game_year) FROM GAME";
     private static final String GET_ALL_GAME_NUMBER_BY_YEAR = "SELECT game_nr FROM GAME WHERE game_year = ?";
-
+    private static final String GET_GAME_DATE_BY_YEAR_AND_NUMBER = "SELECT date FROM GAME WHERE game_year = ? AND game_nr = ?";
     private static final String FIND_BY_NUMBER_AND_YEAR = "SELECT * FROM GAME WHERE game_nr = ? AND game_year = ?";
     private static final String FIND_LATEST_GAME = "SELECT * FROM Game WHERE Id = (SELECT MAX(Id) FROM Game)";
     private static final String INSERT_GAME = "INSERT INTO Game (game_nr, game_year, date, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
@@ -67,6 +67,23 @@ public class GameRepository {
             throw new RuntimeException(e);
         }
         return gameYears;
+    }
+
+    public LocalDate getGameDateByYearAndNumber(int year, int gameNumber) {
+        LocalDate gameDate = null;
+        try {
+            Connection connection = DatabaseUtil.getConnection();
+            PreparedStatement statement = connection.prepareStatement(GET_GAME_DATE_BY_YEAR_AND_NUMBER);
+            statement.setInt(1, year);
+            statement.setInt(2, gameNumber);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                gameDate = resultSet.getDate("date").toLocalDate();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return gameDate;
     }
 
     public List<Integer> getAllGameNumbersByYear(int year) {
