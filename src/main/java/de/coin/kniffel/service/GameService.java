@@ -1,7 +1,6 @@
 package de.coin.kniffel.service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import de.coin.kniffel.model.Game;
