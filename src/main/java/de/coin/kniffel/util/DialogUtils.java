@@ -17,4 +17,13 @@ public class DialogUtils {
 
         return confirmationDialog.showAndWait();
     }
+
+
+    public static Optional<ButtonType> showConfirmationDialogWithOk(String content) {
+        Alert confirmationDialog = new Alert(Alert.AlertType.INFORMATION);
+        confirmationDialog.setContentText(content);
+        confirmationDialog.getButtonTypes().setAll(ButtonType.OK);
+
+        return confirmationDialog.showAndWait();
+    }
 }

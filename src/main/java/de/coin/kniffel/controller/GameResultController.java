@@ -31,6 +31,13 @@ public class GameResultController implements Initializable {
     public TableColumn<GameResultDTO, Integer> columnScore;
     public TableColumn<GameResultDTO, Double> columnContribution;
 
+    // Following Game Table
+    public TableView<GameResultDTO> tableGameResults2;
+    public TableColumn<GameResultDTO, Integer> columnPosition2;
+    public TableColumn<GameResultDTO, String> columnName2;
+    public TableColumn<GameResultDTO, Integer> columnScore2;
+    public TableColumn<GameResultDTO, Double> columnContribution2;
+
     // Current Season Table
     public TableView<GameResultDTO> tableSeasonResults;
     public TableColumn<GameResultDTO, Integer> columnSeasonPosition;
@@ -68,8 +75,11 @@ public class GameResultController implements Initializable {
                 selectedGameNumber = newValue;
                 selectedGameDate = gameService.getGameDateByYearAndNumber(selectedYear, selectedGameNumber);
                 List<GameResultDTO> gameResultsByYearAndGameNumber = scoreService.getGameResultsByYearAndGameNumber(selectedYear, selectedGameNumber);
+                List<GameResultDTO> gameResultsByYearAndGameNumber2 = scoreService.getGameResultsByYearAndGameNumber(selectedYear, selectedGameNumber + 1);
                 ObservableList<GameResultDTO> gameResultDTOS = FXCollections.observableArrayList(gameResultsByYearAndGameNumber);
+                ObservableList<GameResultDTO> gameResultDTOS2 = FXCollections.observableArrayList(gameResultsByYearAndGameNumber2);
                 tableGameResults.setItems(gameResultDTOS);
+                tableGameResults2.setItems(gameResultDTOS2);
             }
         });
 
@@ -82,6 +92,11 @@ public class GameResultController implements Initializable {
         columnScore.setCellValueFactory(data -> data.getValue().finalScoreProperty().asObject());
         columnContribution.setCellValueFactory(data -> data.getValue().contributionProperty().asObject());
 
+        columnPosition2.setCellValueFactory(data -> data.getValue().positionProperty().asObject());
+        columnName2.setCellValueFactory(data -> data.getValue().playerNameProperty());
+        columnScore2.setCellValueFactory(data -> data.getValue().finalScoreProperty().asObject());
+        columnContribution2.setCellValueFactory(data -> data.getValue().contributionProperty().asObject());
+
         columnSeasonPosition.setCellValueFactory(data -> data.getValue().positionProperty().asObject());
         columnSeasonName.setCellValueFactory(data -> data.getValue().playerNameProperty());
         columnSeasonScore.setCellValueFactory(data -> data.getValue().finalScoreProperty().asObject());
@@ -89,6 +104,6 @@ public class GameResultController implements Initializable {
     }
 
     public void handlePrint(ActionEvent actionEvent) {
-        PdfUtils.createPdf(tableGameResults, tableSeasonResults, selectedYear, selectedGameNumber, selectedGameDate);
+        PdfUtils.createPdf(tableGameResults,tableGameResults2, tableSeasonResults, selectedYear, selectedGameNumber, selectedGameDate);
     }
 }

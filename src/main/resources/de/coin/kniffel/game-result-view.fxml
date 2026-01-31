@@ -4,11 +4,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.coin.kniffel.controller.GameResultController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.coin.kniffel.controller.GameResultController">
    <children>
-      <HBox prefHeight="400.0" prefWidth="600.0">
+      <HBox prefHeight="600.0" prefWidth="800.0">
          <children>
-            <VBox prefHeight="400.0" prefWidth="200.0">
+            <VBox prefHeight="400.0" prefWidth="300.0">
                <children>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
@@ -24,12 +24,11 @@
                   </VBox>
                   <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0">
                      <VBox.margin>
-                        <Insets bottom="20.0"/>
+                        <Insets bottom="20.0" />
                      </VBox.margin>
-                     <Button fx:id="buttonPrint" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                             onAction="#handlePrint" text="PDF Export">
+                     <Button fx:id="buttonPrint" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handlePrint" text="PDF Export">
                         <VBox.margin>
-                           <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                           <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                         </VBox.margin>
                      </Button>
                   </VBox>
@@ -38,20 +37,31 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
             </VBox>
-            <VBox prefHeight="400.0" prefWidth="500.0">
+            <VBox prefHeight="400.0" prefWidth="600.0">
                <children>
-                  <TableView fx:id="tableGameResults" prefHeight="200.0" prefWidth="200.0">
+                  <TableView fx:id="tableGameResults" prefHeight="150.0" prefWidth="200.0">
                     <columns>
-                      <TableColumn fx:id="columnPosition" prefWidth="50.0" text="Platz" />
-                      <TableColumn fx:id="columnName" prefWidth="150.0" text="Name" />
-                        <TableColumn fx:id="columnScore" prefWidth="75.0" text="Punkte" />
-                        <TableColumn fx:id="columnContribution" prefWidth="75.0" text="Betrag" />
+                       <TableColumn fx:id="columnPosition" prefWidth="50.0" text="Platz" />
+                       <TableColumn fx:id="columnName" prefWidth="150.0" text="Name" />
+                       <TableColumn fx:id="columnScore" prefWidth="75.0" text="Punkte" />
+                       <TableColumn fx:id="columnContribution" prefWidth="75.0" text="Betrag" />
+                    </columns>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </TableView>
+                  <TableView fx:id="tableGameResults2" prefHeight="150.0" prefWidth="200.0">
+                    <columns>
+                       <TableColumn fx:id="columnPosition2" prefWidth="50.0" text="Platz" />
+                       <TableColumn fx:id="columnName2" prefWidth="150.0" text="Name" />
+                       <TableColumn fx:id="columnScore2" prefWidth="75.0" text="Punkte" />
+                       <TableColumn fx:id="columnContribution2" prefWidth="75.0" text="Betrag" />
                     </columns>
                      <VBox.margin>
                         <Insets bottom="50.0" />
                      </VBox.margin>
                   </TableView>
-                  <TableView fx:id="tableSeasonResults" prefHeight="200.0" prefWidth="200.0">
+                  <TableView fx:id="tableSeasonResults" prefHeight="150.0" prefWidth="200.0">
                      <columns>
                         <TableColumn fx:id="columnSeasonPosition" prefWidth="50.0" text="Platz" />
                         <TableColumn fx:id="columnSeasonName" prefWidth="150.0" text="Name" />
