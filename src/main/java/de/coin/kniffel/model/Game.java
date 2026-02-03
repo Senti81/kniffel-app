@@ -38,8 +38,6 @@ public class Game {
         this.year = year;
         this.nr = nr;
         this.date = date;
-//        this.createdAt = LocalDateTime.now();
-//        this.updatedAt = LocalDateTime.now();
     }
 
     public int getGameId() {
