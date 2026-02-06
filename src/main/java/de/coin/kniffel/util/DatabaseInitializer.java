@@ -22,6 +22,7 @@ public class DatabaseInitializer {
             CREATE TABLE IF NOT EXISTS Game (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 game_nr INT NOT NULL,
+                game_day INT NOT NULL,
                 game_year INT NOT NULL,
                 date DATE,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

@@ -18,6 +18,10 @@ public class Game {
 
     @Getter
     @Setter
+    private int day;
+
+    @Getter
+    @Setter
     private int year;
 
     @Getter
