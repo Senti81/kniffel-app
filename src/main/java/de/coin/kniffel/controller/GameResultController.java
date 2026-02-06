@@ -10,11 +10,11 @@ import de.coin.kniffel.service.GameService;
 import de.coin.kniffel.service.ScoreService;
 import de.coin.kniffel.util.PdfUtils;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import lombok.extern.slf4j.Slf4j;
@@ -31,13 +31,6 @@ public class GameResultController implements Initializable {
     public TableColumn<GameResultDTO, Integer> columnScore;
     public TableColumn<GameResultDTO, Double> columnContribution;
 
-    // Following Game Table
-    public TableView<GameResultDTO> tableGameResults2;
-    public TableColumn<GameResultDTO, Integer> columnPosition2;
-    public TableColumn<GameResultDTO, String> columnName2;
-    public TableColumn<GameResultDTO, Integer> columnScore2;
-    public TableColumn<GameResultDTO, Double> columnContribution2;
-
     // Current Season Table
     public TableView<GameResultDTO> tableSeasonResults;
     public TableColumn<GameResultDTO, Integer> columnSeasonPosition;
@@ -45,10 +38,18 @@ public class GameResultController implements Initializable {
     public TableColumn<GameResultDTO, Integer> columnSeasonScore;
     public TableColumn<GameResultDTO, Double> columnSeasonContribution;
 
+    public List<GameResultDTO> listGameResults;
+    public List<GameResultDTO> listGameResults2;
+
+    public List<GameResultDTO> listSeasonResults;
+    public List<GameResultDTO> listSeasonResults2;
+
     private final GameService gameService = new GameService();
     private final ScoreService scoreService = new ScoreService();
 
     public Button buttonPrint;
+    public Label labelGame;
+    public Label labelSeason;
 
     private int selectedYear = 0;
     private int selectedGameNumber = 0;
@@ -66,20 +67,28 @@ public class GameResultController implements Initializable {
                 comboBoxGameNumber.getItems().clear();
                 comboBoxGameNumber.getItems().addAll(allGameNumbersByYear);
             }
-            List<GameResultDTO> seasonResultsByYear = scoreService.getSeasonResultsByYear(selectedYear);
-            tableSeasonResults.setItems(FXCollections.observableArrayList(seasonResultsByYear));
+            log.debug("Selected year: {}", selectedYear);
         });
 
         comboBoxGameNumber.valueProperty().addListener((observableValue, oldValue, newValue) -> {
             if (newValue != null) {
                 selectedGameNumber = newValue;
                 selectedGameDate = gameService.getGameDateByYearAndNumber(selectedYear, selectedGameNumber);
-                List<GameResultDTO> gameResultsByYearAndGameNumber = scoreService.getGameResultsByYearAndGameNumber(selectedYear, selectedGameNumber);
-                List<GameResultDTO> gameResultsByYearAndGameNumber2 = scoreService.getGameResultsByYearAndGameNumber(selectedYear, selectedGameNumber + 1);
-                ObservableList<GameResultDTO> gameResultDTOS = FXCollections.observableArrayList(gameResultsByYearAndGameNumber);
-                ObservableList<GameResultDTO> gameResultDTOS2 = FXCollections.observableArrayList(gameResultsByYearAndGameNumber2);
-                tableGameResults.setItems(gameResultDTOS);
-                tableGameResults2.setItems(gameResultDTOS2);
+
+                listGameResults = scoreService.getGameResultsByYearAndGameNumber(selectedYear, selectedGameNumber);
+                listSeasonResults = scoreService.getSeasonResultsByYear(selectedYear, selectedGameNumber);
+
+                // set table views
+                tableGameResults.setItems(FXCollections.observableArrayList(listGameResults));
+                tableSeasonResults.setItems(FXCollections.observableArrayList(listSeasonResults));
+
+                labelGame.setText(String.format("Ergebnis von Spiel %d ", selectedGameNumber));
+                labelSeason.setText(String.format("Gesamtergebnis nach allen Spielen aus %d", selectedYear));
+
+                // TODO Diese beiden DTOs sind nur für einen Export relevant. Werden nicht in der Tabelle angezeigt, aber für den aktuellen Export noch benötigt
+                // TODO Evtl. auslagern in seperate Funktionalität (z.B. Dropdown für PDF Export machen)
+                listGameResults2 = scoreService.getGameResultsByYearAndGameNumber(selectedYear, selectedGameNumber + 1);
+                listSeasonResults2 = scoreService.getSeasonResultsByYear(selectedYear, selectedGameNumber + 1);
             }
         });
 
@@ -91,12 +100,6 @@ public class GameResultController implements Initializable {
         columnName.setCellValueFactory(data -> data.getValue().playerNameProperty());
         columnScore.setCellValueFactory(data -> data.getValue().finalScoreProperty().asObject());
         columnContribution.setCellValueFactory(data -> data.getValue().contributionProperty().asObject());
-
-        columnPosition2.setCellValueFactory(data -> data.getValue().positionProperty().asObject());
-        columnName2.setCellValueFactory(data -> data.getValue().playerNameProperty());
-        columnScore2.setCellValueFactory(data -> data.getValue().finalScoreProperty().asObject());
-        columnContribution2.setCellValueFactory(data -> data.getValue().contributionProperty().asObject());
-
         columnSeasonPosition.setCellValueFactory(data -> data.getValue().positionProperty().asObject());
         columnSeasonName.setCellValueFactory(data -> data.getValue().playerNameProperty());
         columnSeasonScore.setCellValueFactory(data -> data.getValue().finalScoreProperty().asObject());
@@ -104,6 +107,7 @@ public class GameResultController implements Initializable {
     }
 
     public void handlePrint(ActionEvent actionEvent) {
-        PdfUtils.createPdf(tableGameResults,tableGameResults2, tableSeasonResults, selectedYear, selectedGameNumber, selectedGameDate);
+        log.info("Printing the following information to PDF: {} {} {} {}", listGameResults, listGameResults2, listSeasonResults, listSeasonResults2);
+        PdfUtils.createPdf(listGameResults, listGameResults2, listSeasonResults, listSeasonResults2, selectedYear, selectedGameNumber, selectedGameDate);
     }
 }

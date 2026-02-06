@@ -42,6 +42,7 @@ public class ScoreRepository {
             JOIN        Game g on s.GAME_ID = g.ID
             JOIN        Player p on s.PLAYER_ID = p.ID
             WHERE       GAME_YEAR = ?
+            AND         GAME_NR <= ?
             GROUP BY    p.NAME
             ORDER BY    total_score DESC;
             """;
@@ -114,7 +115,7 @@ public class ScoreRepository {
         return gameResultDTOList;
     }
 
-    public List<GameResultDTO> getSeasonResultsByYear(int year) {
+    public List<GameResultDTO> getSeasonResultsByYear(int year, int gameNumber) {
         List<GameResultDTO> gameResultDTOList = new ArrayList<>();
 
         try {
@@ -122,6 +123,7 @@ public class ScoreRepository {
             PreparedStatement preparedStatement = connection.prepareStatement(GET_SEASON_RESULTS_BY_YEAR);
 
             preparedStatement.setInt(1, year);
+            preparedStatement.setInt(2, gameNumber);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             int index = 0;
@@ -137,9 +139,10 @@ public class ScoreRepository {
                 gameResultDTO.getFinalScore().set(totalScore);
                 gameResultDTO.getContribution().set(contribution);
 
-                log.info("Found player {} with final score {} - Contribution: {}", playerName, totalScore, contribution);
                 gameResultDTOList.add(gameResultDTO);
             }
+
+            log.info("Fetching results of each player by year {} up to game nr {}", year, gameNumber);
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -28,8 +28,8 @@ public class ScoreService {
         scoreRepository.save(score);
     }
 
-    public List<GameResultDTO> getSeasonResultsByYear(int year) {
-        return scoreRepository.getSeasonResultsByYear(year);
+    public List<GameResultDTO> getSeasonResultsByYear(int year, int gameNumber) {
+        return scoreRepository.getSeasonResultsByYear(year, gameNumber);
     }
 
     public List<GameResultDTO> getGameResultsByYearAndGameNumber(int year, int gameNumber) {

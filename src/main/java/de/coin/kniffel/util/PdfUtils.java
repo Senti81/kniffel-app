@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.itextpdf.text.BaseColor;
@@ -17,8 +18,6 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import de.coin.kniffel.model.dto.GameResultDTO;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableView;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -29,9 +28,10 @@ public class PdfUtils {
     private static final String[] TABLE_HEADERS = {"Name", "Punkte", "Platz", "Wert", "Ges. Wert", "Ges. Punkte", "Ges. Pos."};
 
     public static void createPdf(
-            TableView<GameResultDTO> gameResultDTOTableView1,
-            TableView<GameResultDTO> gameResultDTOTableView2,
-            TableView<GameResultDTO> seasonResultDTOTableView,
+            List<GameResultDTO> gameResultDTOTableView1,
+            List<GameResultDTO> gameResultDTOTableView2,
+            List<GameResultDTO> seasonResultDTOTableView,
+            List<GameResultDTO> seasonResultDTOTableView2,
             int year,
             int gameNumber,
             LocalDate gameDate) {
@@ -51,10 +51,10 @@ public class PdfUtils {
             PdfPTable metaDataTable2 = createMetaDataTable(year, gameNumber + 1, gameDate.plusDays(1), titleFont);
 
             PdfPTable dataTable1 = createDataTable(headerCellFont);
-            fillTableWithCombinedData(dataTable1, seasonResultDTOTableView, gameResultDTOTableView1, dataCellFont);
+            fillTableWithCombinedDataFromLists(dataTable1, seasonResultDTOTableView, gameResultDTOTableView1, dataCellFont);
 
             PdfPTable dataTable2 = createDataTable(headerCellFont);
-            fillTableWithCombinedData(dataTable2, seasonResultDTOTableView, gameResultDTOTableView2, dataCellFont);
+            fillTableWithCombinedDataFromLists(dataTable2, seasonResultDTOTableView2, gameResultDTOTableView2, dataCellFont);
 
             document.add(new Phrase("\n"));
             document.add(metaDataTable);
@@ -73,7 +73,7 @@ public class PdfUtils {
         }
     }
 
-    private static PdfPTable createMetaDataTable(int year, int gameNumber, LocalDate date, Font font) throws Exception {
+    private static PdfPTable createMetaDataTable(int year, int gameNumber, LocalDate date, Font font) {
         PdfPTable metaDataTable = new PdfPTable(METADATA_TABLE_WIDTHS);
         metaDataTable.setWidthPercentage(100);
 
@@ -102,28 +102,48 @@ public class PdfUtils {
         return table;
     }
 
-    private static void fillTableWithCombinedData(
+    private static void fillTableWithCombinedDataFromLists(
             PdfPTable table,
-            TableView<GameResultDTO> seasonResultTable,
-            TableView<GameResultDTO> gameResultTable,
+            List<GameResultDTO> seasonResults,
+            List<GameResultDTO> gameResults,
             Font dataFont) {
+        // Create a map from game results for quick lookups by player name
         Map<String, GameResultDTO> gameResultsMap = new HashMap<>();
-        gameResultTable.getItems().forEach(gameResult ->
+        gameResults.forEach(gameResult ->
                 gameResultsMap.put(gameResult.getPlayerName().get(), gameResult));
 
-        seasonResultTable.getItems().stream()
+        // Sort the season results by position and process each
+        seasonResults.stream()
                 .sorted(Comparator.comparingInt(seasonResult -> seasonResult.getPosition().get()))
                 .forEach(seasonResult -> {
                     String playerName = seasonResult.getPlayerName().get();
                     GameResultDTO gameResult = gameResultsMap.getOrDefault(playerName, null);
 
-                    table.addCell(createCell(playerName, dataFont, PdfPCell.ALIGN_LEFT));
-                    table.addCell(createCell(gameResult != null ? String.valueOf(gameResult.getFinalScore().get()) : "-", dataFont, PdfPCell.ALIGN_RIGHT));
-                    table.addCell(createCell(gameResult != null ? String.valueOf(gameResult.getPosition().get()) : "-", dataFont, PdfPCell.ALIGN_CENTER));
-                    table.addCell(createCell(gameResult != null ? String.format("%.2f €", gameResult.getContribution().get()) : "-", dataFont, PdfPCell.ALIGN_RIGHT));
-                    table.addCell(createCell(String.format("%.2f €", seasonResult.getContribution().get()), dataFont, PdfPCell.ALIGN_RIGHT));
-                    table.addCell(createCell(String.valueOf(seasonResult.getFinalScore().get()), dataFont, PdfPCell.ALIGN_RIGHT));
-                    table.addCell(createCell(String.valueOf(seasonResult.getPosition().get()), dataFont, PdfPCell.ALIGN_CENTER));
+                    table.addCell(createCell(playerName, dataFont, PdfPCell.ALIGN_LEFT)); // Player name
+                    table.addCell(createCell(
+                            gameResult != null ? String.valueOf(gameResult.getFinalScore().get()) : "-",
+                            dataFont,
+                            PdfPCell.ALIGN_RIGHT)); // Game final score
+                    table.addCell(createCell(
+                            gameResult != null ? String.valueOf(gameResult.getPosition().get()) : "-",
+                            dataFont,
+                            PdfPCell.ALIGN_CENTER)); // Game position
+                    table.addCell(createCell(
+                            gameResult != null ? String.format("%.2f €", gameResult.getContribution().get()) : "-",
+                            dataFont,
+                            PdfPCell.ALIGN_RIGHT)); // Game contribution
+                    table.addCell(createCell(
+                            String.format("%.2f €", seasonResult.getContribution().get()),
+                            dataFont,
+                            PdfPCell.ALIGN_RIGHT)); // Season contribution
+                    table.addCell(createCell(
+                            String.valueOf(seasonResult.getFinalScore().get()),
+                            dataFont,
+                            PdfPCell.ALIGN_RIGHT)); // Season final score
+                    table.addCell(createCell(
+                            String.valueOf(seasonResult.getPosition().get()),
+                            dataFont,
+                            PdfPCell.ALIGN_CENTER)); // Season position
                 });
     }
 
