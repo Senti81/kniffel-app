@@ -4,90 +4,77 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.coin.kniffel.controller.GameResultController">
-   <children>
-      <HBox prefHeight="600.0" prefWidth="800.0">
-         <children>
-            <VBox prefHeight="400.0" prefWidth="300.0">
-               <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
-                     <children>
-                        <Label text="Jahr" />
-                        <ComboBox fx:id="comboBoxYear" prefWidth="150.0" promptText="Jahr auswählen">
-                           <VBox.margin>
-                              <Insets bottom="20.0" />
-                           </VBox.margin>
-                        </ComboBox>
-                        <Label text="Spiel" />
-                        <ComboBox fx:id="comboBoxGameNumber" prefWidth="150.0" promptText="Spiel auswählen" />
-                     </children>
-                  </VBox>
-                  <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0">
-                     <VBox.margin>
-                        <Insets bottom="20.0" />
-                     </VBox.margin>
-                     <Button fx:id="buttonPrint" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handlePrint" text="PDF Export">
-                        <VBox.margin>
-                           <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                        </VBox.margin>
-                     </Button>
-                  </VBox>
-               </children>
-               <HBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </HBox.margin>
-            </VBox>
-            <VBox prefHeight="400.0" prefWidth="600.0">
-               <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
-                     <children>
-                        <Label fx:id="labelGame">
-                           <padding>
-                              <Insets bottom="10.0" right="10.0" top="10.0" />
-                           </padding>
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                        </Label>
-                        <TableView fx:id="tableGameResults" prefHeight="150.0" prefWidth="200.0">
-                          <columns>
-                             <TableColumn fx:id="columnPosition" prefWidth="50.0" text="Platz" />
-                             <TableColumn fx:id="columnName" prefWidth="150.0" text="Name" />
-                             <TableColumn fx:id="columnScore" prefWidth="75.0" text="Punkte" />
-                             <TableColumn fx:id="columnContribution" prefWidth="75.0" text="Betrag" />
-                          </columns>
-                           <VBox.margin>
-                              <Insets bottom="20.0" />
-                           </VBox.margin>
-                        </TableView>
-                     </children>
-                  </VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
-                     <children>
-                        <Label fx:id="labelSeason">
-                           <padding>
-                              <Insets bottom="10.0" right="10.0" top="10.0" />
-                           </padding>
-                        </Label>
-                        <TableView fx:id="tableSeasonResults" prefHeight="150.0" prefWidth="530.0">
-                           <columns>
-                              <TableColumn fx:id="columnSeasonPosition" prefWidth="50.0" text="Platz" />
-                              <TableColumn fx:id="columnSeasonName" prefWidth="150.0" text="Name" />
-                              <TableColumn fx:id="columnSeasonScore" prefWidth="75.0" text="Punkte" />
-                              <TableColumn fx:id="columnSeasonContribution" prefWidth="75.0" text="Betrag" />
-                           </columns>
-                        </TableView>
-                     </children>
-                     <padding>
-                        <Insets top="20.0" />
-                     </padding>
-                  </VBox>
-               </children>
-               <HBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </HBox.margin>
-            </VBox>
-         </children>
-      </HBox>
-   </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
+            prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="de.coin.kniffel.controller.GameResultController">
+   <HBox prefHeight="600.0" prefWidth="800.0">
+      <VBox prefHeight="400.0" prefWidth="300.0">
+         <HBox.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+         </HBox.margin>
+         <padding>
+            <Insets left="10.0" top="50.0"/>
+         </padding>
+         <Label text="Jahr">
+            <padding>
+               <Insets bottom="5.0" top="30.0"/>
+            </padding>
+         </Label>
+         <ComboBox fx:id="comboBoxYear" prefWidth="150.0" promptText="Jahr auswählen">
+            <VBox.margin>
+               <Insets bottom="20.0"/>
+            </VBox.margin>
+         </ComboBox>
+         <Label text="Spiel">
+            <padding>
+               <Insets bottom="5.0" top="30.0"/>
+            </padding>
+         </Label>
+         <ComboBox fx:id="comboBoxGameNumber" prefWidth="150.0" promptText="Spiel auswählen"/>
+      </VBox>
+      <VBox prefHeight="400.0" prefWidth="600.0">
+         <HBox.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+         </HBox.margin>
+         <VBox prefHeight="200.0" prefWidth="100.0">
+            <Label fx:id="labelGame">
+               <padding>
+                  <Insets bottom="10.0" right="10.0" top="10.0"/>
+               </padding>
+               <VBox.margin>
+                  <Insets/>
+               </VBox.margin>
+            </Label>
+            <TableView fx:id="tableGameResults" prefHeight="150.0" prefWidth="200.0">
+               <columns>
+                  <TableColumn fx:id="columnPosition" prefWidth="50.0" text="Platz"/>
+                  <TableColumn fx:id="columnName" prefWidth="150.0" text="Name"/>
+                  <TableColumn fx:id="columnScore" prefWidth="75.0" text="Punkte"/>
+                  <TableColumn fx:id="columnContribution" prefWidth="75.0" text="Betrag"/>
+               </columns>
+               <VBox.margin>
+                  <Insets bottom="20.0"/>
+               </VBox.margin>
+            </TableView>
+         </VBox>
+         <VBox prefHeight="200.0" prefWidth="100.0">
+            <padding>
+               <Insets top="20.0"/>
+            </padding>
+            <Label fx:id="labelSeason">
+               <padding>
+                  <Insets bottom="10.0" right="10.0" top="10.0"/>
+               </padding>
+            </Label>
+            <TableView fx:id="tableSeasonResults" prefHeight="150.0" prefWidth="530.0">
+               <columns>
+                  <TableColumn fx:id="columnSeasonPosition" prefWidth="50.0" text="Platz"/>
+                  <TableColumn fx:id="columnSeasonName" prefWidth="150.0" text="Name"/>
+                  <TableColumn fx:id="columnSeasonScore" prefWidth="75.0" text="Punkte"/>
+                  <TableColumn fx:id="columnSeasonContribution" prefWidth="75.0" text="Betrag"/>
+               </columns>
+            </TableView>
+         </VBox>
+      </VBox>
+   </HBox>
 </AnchorPane>
