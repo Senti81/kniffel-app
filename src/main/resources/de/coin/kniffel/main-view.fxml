@@ -19,6 +19,7 @@
                 </Menu>
                 <Menu text="Auswertung">
                     <MenuItem onAction="#handleScoreView" text="Ergebnisse" />
+                    <MenuItem onAction="#handleExport" text="Export" />
                 </Menu>
             </MenuBar>
         </VBox>

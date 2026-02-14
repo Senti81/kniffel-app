@@ -34,6 +34,10 @@ public class MainController {
         loadView("game-result-view.fxml", "Kniffel - Score");
     }
 
+    @FXML
+    public void handleExport() {
+        loadView("export-view.fxml", "Kniffel - Export");
+    }
     /**
      * Helper method to switch the scene using the given FXML file path.
      *

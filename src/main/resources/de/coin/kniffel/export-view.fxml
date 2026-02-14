@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.coin.kniffel.controller.ExportController">
+   <HBox layoutY="-14.0" prefHeight="600.0" prefWidth="800.0">
+      <VBox prefHeight="400.0" prefWidth="300.0">
+         <HBox.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </HBox.margin>
+         <padding>
+            <Insets left="10.0" top="50.0" />
+         </padding>
+         <Label text="Jahr:">
+            <padding>
+               <Insets bottom="5.0" top="30.0" />
+            </padding>
+         </Label>
+         <ComboBox fx:id="comboBoxYear" prefWidth="150.0" promptText="Jahr auswählen">
+            <VBox.margin>
+               <Insets bottom="20.0" />
+            </VBox.margin>
+         </ComboBox>
+         <Label layoutX="20.0" layoutY="60.0" text="Pdf Export:">
+            <padding>
+               <Insets bottom="5.0" top="30.0" />
+            </padding>
+         </Label>
+         <ComboBox fx:id="comboBoxGames" layoutX="20.0" layoutY="112.0" prefWidth="150.0" promptText="Spiele auswählen" />
+         <Button fx:id="btnExport" mnemonicParsing="false" onAction="#export" text="Als PDF exportieren">
+            <VBox.margin>
+               <Insets top="50.0" />
+            </VBox.margin></Button>
+      </VBox>
+   </HBox>
+</AnchorPane>
