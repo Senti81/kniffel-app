@@ -46,7 +46,6 @@ public class GameResultController implements Initializable {
 
     private int selectedYear = 0;
     private int selectedGameNumber = 0;
-    private LocalDate selectedGameDate;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -66,7 +65,6 @@ public class GameResultController implements Initializable {
         comboBoxGameNumber.valueProperty().addListener((observableValue, oldValue, newValue) -> {
             if (newValue != null) {
                 selectedGameNumber = newValue;
-                selectedGameDate = gameService.getGameDateByYearAndNumber(selectedYear, selectedGameNumber);
 
                 listGameResults = scoreService.getGameResultsByYearAndGameNumber(selectedYear, selectedGameNumber);
                 listSeasonResults = scoreService.getSeasonResultsByYear(selectedYear, selectedGameNumber);
