@@ -1,20 +1,20 @@
 package de.coin.kniffel.controller;
 
+import de.coin.kniffel.model.dto.GameResultDTO;
+import de.coin.kniffel.service.GameService;
+import de.coin.kniffel.service.ScoreService;
+import de.coin.kniffel.util.PdfUtils;
+import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
+import lombok.extern.slf4j.Slf4j;
+
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import de.coin.kniffel.service.GameService;
-import de.coin.kniffel.service.ScoreService;
-import de.coin.kniffel.util.PdfUtils;
-import javafx.event.ActionEvent;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ExportController implements Initializable {
@@ -22,12 +22,17 @@ public class ExportController implements Initializable {
     private final GameService gameService = new GameService();
     private final ScoreService scoreService = new ScoreService();
 
+    public List<GameResultDTO> listGameResults;
+    public List<GameResultDTO> listGameResults2;
+    public List<GameResultDTO> listSeasonResults;
+    public List<GameResultDTO> listSeasonResults2;
+
     public ComboBox<Integer> comboBoxYear;
     public ComboBox<Map.Entry<Integer, List<Integer>>> comboBoxGames;
-    public Button btnExport;
 
     private int selectedYear = 0;
     private List<Integer> selectedGameNumbers = null;
+    private LocalDate selectedGameDate;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -78,8 +83,14 @@ public class ExportController implements Initializable {
         comboBoxGames.valueProperty().addListener((observableValue, oldValue, newValue) -> {
             if (newValue != null) {
                 selectedGameNumbers = newValue.getValue();
+                selectedGameDate = gameService.getGameDateByYearAndNumber(selectedYear, selectedGameNumbers.getFirst());
+
                 log.info("Selected game numbers: {}, {}", selectedGameNumbers.get(0), selectedGameNumbers.get(1));
 
+                listGameResults = scoreService.getGameResultsByYearAndGameNumber(selectedYear, selectedGameNumbers.getFirst());
+                listGameResults2 = scoreService.getGameResultsByYearAndGameNumber(selectedYear, selectedGameNumbers.getLast());
+                listSeasonResults = scoreService.getSeasonResultsByYear(selectedYear, selectedGameNumbers.getFirst());
+                listSeasonResults2 = scoreService.getSeasonResultsByYear(selectedYear, selectedGameNumbers.getLast());
             }
         });
     }
@@ -101,8 +112,7 @@ public class ExportController implements Initializable {
     }
 
     public void export() {
-
-//        log.info("Printing the following information to PDF: {} {} {} {}", listGameResults, listGameResults2, listSeasonResults, listSeasonResults2);
-//        PdfUtils.createPdf(listGameResults, listGameResults2, listSeasonResults, listSeasonResults2, selectedYear, selectedGameNumber, selectedGameDate);
+        log.info("Printing the following information to PDF: {} {} {} {}", listGameResults, listGameResults2, listSeasonResults, listSeasonResults2);
+        PdfUtils.createPdf(listGameResults, listGameResults2, listSeasonResults, listSeasonResults2, selectedYear, selectedGameNumbers, selectedGameDate);
     }
 }

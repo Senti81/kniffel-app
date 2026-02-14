@@ -1,5 +1,12 @@
 package de.coin.kniffel.util;
 
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import de.coin.kniffel.model.dto.GameResultDTO;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.time.LocalDate;
@@ -7,18 +14,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
-
-import de.coin.kniffel.model.dto.GameResultDTO;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class PdfUtils {
@@ -28,17 +23,17 @@ public class PdfUtils {
     private static final String[] TABLE_HEADERS = {"Name", "Punkte", "Platz", "Wert", "Ges. Wert", "Ges. Punkte", "Ges. Pos."};
 
     public static void createPdf(
-            List<GameResultDTO> gameResultDTOTableView1,
+            List<GameResultDTO> gameResultDTOTableView,
             List<GameResultDTO> gameResultDTOTableView2,
             List<GameResultDTO> seasonResultDTOTableView,
             List<GameResultDTO> seasonResultDTOTableView2,
             int year,
-            int gameNumber,
+            List<Integer> gameNumbers,
             LocalDate gameDate) {
         log.info("Creating PDF...");
         try {
             Document document = new Document(PageSize.A4.rotate());
-            String fileOutputPath = "data/" + year + "-" + gameNumber + ".pdf";
+            String fileOutputPath = "data/" + year + "_" + gameNumbers.getFirst() + "_" + gameNumbers.getLast() +  ".pdf";
             PdfWriter.getInstance(document, new FileOutputStream(fileOutputPath));
             document.open();
 
@@ -47,11 +42,11 @@ public class PdfUtils {
             Font dataCellFont = new Font(Font.FontFamily.HELVETICA, 14, Font.NORMAL);
 
             // Create and add metadata tables
-            PdfPTable metaDataTable = createMetaDataTable(year, gameNumber, gameDate, titleFont);
-            PdfPTable metaDataTable2 = createMetaDataTable(year, gameNumber + 1, gameDate.plusDays(1), titleFont);
+            PdfPTable metaDataTable = createMetaDataTable(year, gameNumbers.getFirst(), gameDate, titleFont);
+            PdfPTable metaDataTable2 = createMetaDataTable(year, gameNumbers.getLast(), gameDate.plusDays(1), titleFont);
 
             PdfPTable dataTable1 = createDataTable(headerCellFont);
-            fillTableWithCombinedDataFromLists(dataTable1, seasonResultDTOTableView, gameResultDTOTableView1, dataCellFont);
+            fillTableWithCombinedDataFromLists(dataTable1, seasonResultDTOTableView, gameResultDTOTableView, dataCellFont);
 
             PdfPTable dataTable2 = createDataTable(headerCellFont);
             fillTableWithCombinedDataFromLists(dataTable2, seasonResultDTOTableView2, gameResultDTOTableView2, dataCellFont);
