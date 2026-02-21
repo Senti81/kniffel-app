@@ -26,7 +26,7 @@
             </padding>
             <Label text="Spielnr:" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="player-label"/>
             <TextField fx:id="gameNumberField" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="player-text-field"/>
-            <Label text="Spiejahr" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="player-label"/>
+            <Label text="Spieljahr" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="player-label"/>
             <TextField fx:id="gameYearField" GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="player-text-field"/>
             <Label text="Datum:" GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="player-label"/>
             <DatePicker fx:id="datePicker" GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="player-text-field"/>

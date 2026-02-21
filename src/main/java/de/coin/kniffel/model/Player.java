@@ -1,23 +1,17 @@
 package de.coin.kniffel.model;
 
-import java.time.LocalDateTime;
-
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
+@Data
 public class Player {
 
     private final IntegerProperty playerId = new SimpleIntegerProperty();
     private final StringProperty playerName = new SimpleStringProperty();
-    @Setter
-    @Getter
     private String createdAt;
-    @Setter
-    @Getter
     private String updatedAt;
 
     public Player() {}

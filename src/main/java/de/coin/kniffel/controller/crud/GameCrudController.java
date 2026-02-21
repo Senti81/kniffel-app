@@ -18,17 +18,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class GameCrudController extends AbstractCrudController<Game> implements Initializable {
 
     public TableView<Game> gameTableView;
-    public TableColumn<Game, Integer> idColumn;
     public TableColumn<Game, Integer> numberColumn;
     public TableColumn<Game, Integer> yearColumn;
     public TableColumn<Game, LocalDate> dateColumn;
-    public Button backButton;
 
     private final GameService service = new GameService();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("gameId"));
         numberColumn.setCellValueFactory(new PropertyValueFactory<>("nr"));
         yearColumn.setCellValueFactory(new PropertyValueFactory<>("year"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
