@@ -2,11 +2,14 @@ package de.coin.kniffel.controller;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.Optional;
 
-import javafx.event.ActionEvent;
+import de.coin.kniffel.util.DialogUtils;
+import de.coin.kniffel.util.ImportExportUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 
 public class MainController {
@@ -54,8 +57,16 @@ public class MainController {
         }
     }
 
-    public void handleExit(ActionEvent actionEvent) {
+    public void handleExit() {
         System.exit(0);
     }
 
+    public void exportData() {
+        Optional<ButtonType> button = DialogUtils.showConfirmationDialogWithOkAndCancel("""
+                Alle Daten aus dem Datenbanksystem werden in eine CSV-Datei exportiert. Fortfahren?
+                """);
+        if (button.isPresent() && button.get() == ButtonType.OK) {
+            DialogUtils.showResultDialog(ImportExportUtil.exportDatabaseToCSV());
+        }
+    }
 }

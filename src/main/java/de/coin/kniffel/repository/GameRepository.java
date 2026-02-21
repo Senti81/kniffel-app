@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class GameRepository {
 
-    private static final String FIND_ALL_GAMES = "SELECT * FROM Game";
+    private static final String FIND_ALL_GAMES = "SELECT * FROM Game ORDER BY game_year, game_nr";
     private static final String GET_ALL_GAME_YEARS = "SELECT DISTINCT (game_year) FROM GAME ORDER BY game_year";
     private static final String GET_ALL_GAME_NUMBER_BY_YEAR = "SELECT game_nr FROM GAME WHERE game_year = ? ORDER BY game_nr";
     private static final String GET_GAME_DATE_BY_YEAR_AND_NUMBER = "SELECT date FROM GAME WHERE game_year = ? AND game_nr = ?";
