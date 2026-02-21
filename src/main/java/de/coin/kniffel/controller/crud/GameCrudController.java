@@ -7,7 +7,6 @@ import java.util.ResourceBundle;
 import de.coin.kniffel.model.Game;
 import de.coin.kniffel.service.GameService;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
@@ -33,7 +32,7 @@ public class GameCrudController extends AbstractCrudController<Game> implements 
         gameTableView.setItems(itemList);
     }
 
-    public void handleDelete(ActionEvent actionEvent) {
+    public void handleDelete() {
         Game game = gameTableView.getSelectionModel().getSelectedItem();
         if (game == null) {
             showAlert(Alert.AlertType.ERROR, "Fehler", "Kein Spiel ausgewählt");
