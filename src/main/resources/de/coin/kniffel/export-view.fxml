@@ -2,11 +2,12 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.coin.kniffel.controller.ExportController">
-   <HBox layoutY="-14.0" prefHeight="600.0" prefWidth="800.0">
-      <VBox prefHeight="400.0" prefWidth="300.0">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.coin.kniffel.controller.ExportController">
+   <HBox prefHeight="600.0" prefWidth="800.0">
+      <VBox prefHeight="400.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <HBox.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </HBox.margin>
@@ -23,7 +24,7 @@
                <Insets bottom="20.0" />
             </VBox.margin>
          </ComboBox>
-         <Label layoutX="20.0" layoutY="60.0" text="Pdf Export:">
+         <Label layoutX="20.0" layoutY="60.0" text="Spiele:">
             <padding>
                <Insets bottom="5.0" top="30.0" />
             </padding>
@@ -33,6 +34,21 @@
             <VBox.margin>
                <Insets top="50.0" />
             </VBox.margin></Button>
+      </VBox>
+      <VBox prefHeight="600.0" prefWidth="475.0">
+         <children>
+            <ImageView fitHeight="313.0" fitWidth="288.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@icons/pdf-download.png" />
+               </image>
+               <VBox.margin>
+                  <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+               </VBox.margin>
+            </ImageView>
+         </children>
+         <HBox.margin>
+            <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+         </HBox.margin>
       </VBox>
    </HBox>
 </AnchorPane>

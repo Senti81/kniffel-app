@@ -3,6 +3,7 @@ package de.coin.kniffel.controller;
 import de.coin.kniffel.model.dto.GameResultDTO;
 import de.coin.kniffel.service.GameService;
 import de.coin.kniffel.service.ScoreService;
+import de.coin.kniffel.util.DialogUtils;
 import de.coin.kniffel.util.PdfUtils;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -112,6 +113,11 @@ public class ExportController implements Initializable {
     }
 
     public void export() {
+        if (selectedGameNumbers == null) {
+            log.error("No game numbers selected");
+            DialogUtils.showErrorDialog("Bitte zuerst Jahr und Spiele auswählen.");
+            return;
+        }
         log.info("Printing the following information to PDF: {} {} {} {}", listGameResults, listGameResults2, listSeasonResults, listSeasonResults2);
         PdfUtils.createPdf(listGameResults, listGameResults2, listSeasonResults, listSeasonResults2, selectedYear, selectedGameNumbers, selectedGameDate);
     }

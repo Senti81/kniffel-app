@@ -39,4 +39,12 @@ public class DialogUtils {
         dialog.getButtonTypes().setAll(ButtonType.OK);
         dialog.show();
     }
+
+    public static void showErrorDialog(String message) {
+        Alert dialog = new Alert(Alert.AlertType.ERROR);
+        dialog.setHeaderText("Hoppla, da ist was schief gelaufen");
+        dialog.setContentText(message);
+        dialog.getButtonTypes().setAll(ButtonType.OK);
+        dialog.show();
+    }
 }
