@@ -10,6 +10,7 @@
             <MenuBar>
                 <Menu text="Datei">
                     <MenuItem onAction="#handlePlayerManagement" text="Spieler verwalten" />
+                    <MenuItem onAction="#exportData" text="Daten sichern" />
                     <SeparatorMenuItem />
                     <MenuItem onAction="#handleExit" text="Beenden" />
                 </Menu>

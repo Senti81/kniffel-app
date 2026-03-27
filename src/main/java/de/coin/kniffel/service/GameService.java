@@ -31,7 +31,9 @@ public class GameService {
     }
 
     public List<Integer> getAllGameNumbersByYear(int year) {
-        return gameRepository.getAllGameNumbersByYear(year);
+        List<Integer> allGameNumbersByYear = gameRepository.getAllGameNumbersByYear(year);
+        log.info("Found game numbers from {}: {}", year, allGameNumbersByYear);
+        return allGameNumbersByYear;
     }
 
     public LocalDate getGameDateByYearAndNumber(int year, int gameNumber) {

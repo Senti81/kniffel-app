@@ -5,35 +5,19 @@ import java.time.LocalDateTime;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+@Data
 public class Game {
 
     private final IntegerProperty gameId = new SimpleIntegerProperty();
 
-    @Getter
-    @Setter
     private int nr;
-
-    @Getter
-    @Setter
-    private int day;
-
-    @Getter
-    @Setter
     private int year;
-
-    @Getter
-    @Setter
     private LocalDate date;
-
-    @Getter
-    @Setter
     private LocalDateTime createdAt;
-
-    @Getter
-    @Setter
     private LocalDateTime updatedAt;
 
     public Game() {}

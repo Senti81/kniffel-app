@@ -1,6 +1,7 @@
 package de.coin.kniffel.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,6 @@ public class ScoreServiceTest {
 
         // Act
         List<ResultDTO> updatedResults = scoreService.calculateContributions(results);
-        System.out.println(updatedResults);
 
         // Asert
         assertEquals(3.50D, updatedResults.get(0).getContribution());
@@ -54,7 +54,6 @@ public class ScoreServiceTest {
 
         // Act
         List<ResultDTO> updatedResults = scoreService.calculateContributions(results);
-        System.out.println(updatedResults);
 
         // Asert
         assertEquals(3.50D + 1.00D + 3.00D, updatedResults.get(0).getContribution());
@@ -101,5 +100,81 @@ public class ScoreServiceTest {
         assertEquals(4.00D + 3.00D, updatedResults.get(1).getContribution());
         assertEquals(4.50D + 3.00D, updatedResults.get(2).getContribution());
         assertEquals(5.00D + 3.00D, updatedResults.get(3).getContribution());
+    }
+
+    @Test
+    void calculateContributions_EmptyList_ShouldReturnEmptyList() {
+        List<ResultDTO> results = new ArrayList<>();
+        List<ResultDTO> updatedResults = scoreService.calculateContributions(results);
+        assertNotNull(updatedResults);
+        assertEquals(0, updatedResults.size());
+    }
+
+    @Test
+    void calculateContributions_SinglePlayer_ShouldReturnBaseContribution() {
+        List<ResultDTO> results = new ArrayList<>();
+        results.add(new ResultDTO(1, 1, 1000));
+        List<ResultDTO> updatedResults = scoreService.calculateContributions(results);
+        assertEquals(3.50D, updatedResults.get(0).getContribution());
+    }
+
+    @Test
+    void calculateContributions_MixedHighAndLowScores_ShouldApplyBothBonuses() {
+        List<ResultDTO> results = new ArrayList<>();
+        results.add(new ResultDTO(1, 1, 799));
+        results.add(new ResultDTO(1, 2, 1100));
+        results.add(new ResultDTO(1, 3, 1100));
+        results.add(new ResultDTO(1, 4, 1300));
+
+        List<ResultDTO> updatedResults = scoreService.calculateContributions(results);
+
+        assertEquals(3.50D + 3.00D + 1.00D, updatedResults.get(0).getContribution());
+        assertEquals(4.00D + 1.00D, updatedResults.get(1).getContribution());
+        assertEquals(4.50D + 1.00D, updatedResults.get(2).getContribution());
+        assertEquals(5.00D, updatedResults.get(3).getContribution());
+    }
+
+    @Test
+    void calculateContributions_BoundaryLowScore_ShouldNotAddPenalty() {
+        List<ResultDTO> results = new ArrayList<>();
+        results.add(new ResultDTO(1, 1, 800));
+        results.add(new ResultDTO(1, 2, 800));
+        results.add(new ResultDTO(1, 3, 800));
+        results.add(new ResultDTO(1, 4, 800));
+
+        List<ResultDTO> updatedResults = scoreService.calculateContributions(results);
+
+        assertEquals(3.50D, updatedResults.get(0).getContribution());
+        assertEquals(4.00D, updatedResults.get(1).getContribution());
+        assertEquals(4.50D, updatedResults.get(2).getContribution());
+        assertEquals(5.00D, updatedResults.get(3).getContribution());
+    }
+
+    @Test
+    void calculateContributions_BoundaryHighScore_ShouldNotAddBonus() {
+        List<ResultDTO> results = new ArrayList<>();
+        results.add(new ResultDTO(1, 1, 1299));
+        results.add(new ResultDTO(1, 2, 1299));
+        results.add(new ResultDTO(1, 3, 1299));
+        results.add(new ResultDTO(1, 4, 1299));
+
+        List<ResultDTO> updatedResults = scoreService.calculateContributions(results);
+
+        assertEquals(3.50D, updatedResults.get(0).getContribution());
+        assertEquals(4.00D, updatedResults.get(1).getContribution());
+        assertEquals(4.50D, updatedResults.get(2).getContribution());
+        assertEquals(5.00D, updatedResults.get(3).getContribution());
+    }
+
+    @Test
+    void calculateContributions_TwoPlayers_ShouldReturnCorrectContributions() {
+        List<ResultDTO> results = new ArrayList<>();
+        results.add(new ResultDTO(1, 1, 1000));
+        results.add(new ResultDTO(1, 2, 1200));
+
+        List<ResultDTO> updatedResults = scoreService.calculateContributions(results);
+
+        assertEquals(3.50D, updatedResults.get(0).getContribution());
+        assertEquals(4.00D, updatedResults.get(1).getContribution());
     }
 }

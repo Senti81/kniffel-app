@@ -9,7 +9,6 @@
     <center>
         <TableView fx:id="gameTableView" prefWidth="600">
             <columns>
-            <TableColumn fx:id="idColumn" prefWidth="75.0" text="Id" />
                 <TableColumn fx:id="numberColumn" prefWidth="100" text="Nr" />
                 <TableColumn fx:id="yearColumn" prefWidth="100" text="Jahr" />
                 <TableColumn fx:id="dateColumn" text="Datum" />

@@ -2,11 +2,14 @@ package de.coin.kniffel.controller;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.Optional;
 
-import javafx.event.ActionEvent;
+import de.coin.kniffel.util.DialogUtils;
+import de.coin.kniffel.util.ImportExportUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 
 public class MainController {
@@ -16,34 +19,34 @@ public class MainController {
 
     @FXML
     private void handlePlayerManagement() {
-        loadView("player-crud-view.fxml", "Kniffel - Spieler");
+        loadView("player-crud-view.fxml");
     }
 
     @FXML
     private void handleScoreManagement() {
-        loadView("add-game-view.fxml", "Kniffel - Spiel");
+        loadView("add-game-view.fxml");
     }
 
     @FXML
     public void handleGameView() {
-        loadView("game-crud-view.fxml", "Kniffel - Spiel");
+        loadView("game-crud-view.fxml");
     }
 
     @FXML
     private void handleScoreView()  {
-        loadView("game-result-view.fxml", "Kniffel - Score");
+        loadView("game-result-view.fxml");
     }
 
     @FXML
     public void handleExport() {
-        loadView("export-view.fxml", "Kniffel - Export");
+        loadView("export-view.fxml");
     }
     /**
      * Helper method to switch the scene using the given FXML file path.
      *
      * @param fxmlPath the path to the FXML file for the scene
      */
-    private void loadView(String fxmlPath, String title) {
+    private void loadView(String fxmlPath) {
         final String prefix = "/de/coin/kniffel/";
         try {
             Node view = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(prefix + fxmlPath)));
@@ -54,8 +57,16 @@ public class MainController {
         }
     }
 
-    public void handleExit(ActionEvent actionEvent) {
+    public void handleExit() {
         System.exit(0);
     }
 
+    public void exportData() {
+        Optional<ButtonType> button = DialogUtils.showConfirmationDialogWithOkAndCancel("""
+                Alle Daten aus dem Datenbanksystem werden in eine CSV-Datei exportiert. Fortfahren?
+                """);
+        if (button.isPresent() && button.get() == ButtonType.OK) {
+            DialogUtils.showResultDialog(ImportExportUtil.exportDatabaseToCSV());
+        }
+    }
 }

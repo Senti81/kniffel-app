@@ -30,6 +30,19 @@ public class PdfUtils {
             int year,
             List<Integer> gameNumbers,
             LocalDate gameDate) {
+        createPdf(gameResultDTOTableView, gameResultDTOTableView2, seasonResultDTOTableView,
+                seasonResultDTOTableView2, year, gameNumbers, gameDate, true);
+    }
+
+    public static void createPdf(
+            List<GameResultDTO> gameResultDTOTableView,
+            List<GameResultDTO> gameResultDTOTableView2,
+            List<GameResultDTO> seasonResultDTOTableView,
+            List<GameResultDTO> seasonResultDTOTableView2,
+            int year,
+            List<Integer> gameNumbers,
+            LocalDate gameDate,
+            boolean showDialog) {
         log.info("Creating PDF...");
         try {
             Document document = new Document(PageSize.A4.rotate());
@@ -41,7 +54,6 @@ public class PdfUtils {
             Font headerCellFont = new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD);
             Font dataCellFont = new Font(Font.FontFamily.HELVETICA, 14, Font.NORMAL);
 
-            // Create and add metadata tables
             PdfPTable metaDataTable = createMetaDataTable(year, gameNumbers.getFirst(), gameDate, titleFont);
             PdfPTable metaDataTable2 = createMetaDataTable(year, gameNumbers.getLast(), gameDate.plusDays(1), titleFont);
 
@@ -59,7 +71,9 @@ public class PdfUtils {
             document.add(dataTable2);
 
             log.info("PDF created successfully: {}", fileOutputPath);
-            DialogUtils.showConfirmationDialogWithOk("PDF erfolgreich exportiert");
+            if (showDialog) {
+                DialogUtils.showConfirmationDialogWithOk("PDF erfolgreich exportiert");
+            }
             document.close();
         } catch (FileNotFoundException e) {
             log.error("File not found: {}", e.getMessage());

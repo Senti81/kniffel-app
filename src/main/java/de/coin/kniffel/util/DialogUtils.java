@@ -18,12 +18,33 @@ public class DialogUtils {
         return confirmationDialog.showAndWait();
     }
 
-
     public static Optional<ButtonType> showConfirmationDialogWithOk(String content) {
         Alert confirmationDialog = new Alert(Alert.AlertType.INFORMATION);
         confirmationDialog.setContentText(content);
         confirmationDialog.getButtonTypes().setAll(ButtonType.OK);
-
         return confirmationDialog.showAndWait();
+    }
+
+    public static Optional<ButtonType> showConfirmationDialogWithOkAndCancel(String content) {
+        Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationDialog.setContentText(content);
+        confirmationDialog.getButtonTypes().setAll(ButtonType.OK);
+        confirmationDialog.getButtonTypes().add(ButtonType.CANCEL);
+        return confirmationDialog.showAndWait();
+    }
+
+    public static void showResultDialog(boolean wasSuccessful) {
+        Alert dialog = new Alert(wasSuccessful ? Alert.AlertType.INFORMATION : Alert.AlertType.ERROR);
+        dialog.setHeaderText(wasSuccessful ? "Erfolg" : "Fehler");
+        dialog.getButtonTypes().setAll(ButtonType.OK);
+        dialog.show();
+    }
+
+    public static void showErrorDialog(String message) {
+        Alert dialog = new Alert(Alert.AlertType.ERROR);
+        dialog.setHeaderText("Hoppla, da ist was schief gelaufen");
+        dialog.setContentText(message);
+        dialog.getButtonTypes().setAll(ButtonType.OK);
+        dialog.show();
     }
 }

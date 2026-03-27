@@ -19,14 +19,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class GameRepository {
 
-    private static final String FIND_ALL_GAMES = "SELECT * FROM Game";
-    private static final String GET_ALL_GAME_YEARS = "SELECT DISTINCT (game_year) FROM GAME";
-    private static final String GET_ALL_GAME_DAYS_BY_YEAR = "SELECT DISTINCT (game_day) FROM GAME WHERE game_year = ?";
-    private static final String GET_ALL_GAME_NUMBER_BY_YEAR = "SELECT game_nr FROM GAME WHERE game_year = ?";
+    private static final String FIND_ALL_GAMES = "SELECT * FROM Game ORDER BY game_year, game_nr";
+    private static final String GET_ALL_GAME_YEARS = "SELECT DISTINCT (game_year) FROM GAME ORDER BY game_year";
+    private static final String GET_ALL_GAME_NUMBER_BY_YEAR = "SELECT game_nr FROM GAME WHERE game_year = ? ORDER BY game_nr";
     private static final String GET_GAME_DATE_BY_YEAR_AND_NUMBER = "SELECT date FROM GAME WHERE game_year = ? AND game_nr = ?";
     private static final String FIND_BY_NUMBER_AND_YEAR = "SELECT * FROM GAME WHERE game_nr = ? AND game_year = ?";
     private static final String FIND_LATEST_GAME = "SELECT * FROM Game WHERE Id = (SELECT MAX(Id) FROM Game)";
-    private static final String INSERT_GAME = "INSERT INTO Game (game_nr, game_day, game_year, date, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String INSERT_GAME = "INSERT INTO Game (game_nr, game_year, date, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
     private static final String DELETE_GAME = "DELETE FROM Game WHERE Id = ?";
 
     public int save(Game game) {
@@ -35,11 +34,10 @@ public class GameRepository {
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_GAME, PreparedStatement.RETURN_GENERATED_KEYS);
 
             preparedStatement.setInt(1, game.getNr());
-            preparedStatement.setInt(2, Math.ceilDiv(game.getNr(),  2));
-            preparedStatement.setInt(3, game.getYear());
-            preparedStatement.setDate(4, Date.valueOf(game.getDate()));
+            preparedStatement.setInt(2, game.getYear());
+            preparedStatement.setDate(3, Date.valueOf(game.getDate()));
+            preparedStatement.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
             preparedStatement.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
-            preparedStatement.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
 
             preparedStatement.executeUpdate();
 
