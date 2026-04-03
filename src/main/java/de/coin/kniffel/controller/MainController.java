@@ -1,9 +1,5 @@
 package de.coin.kniffel.controller;
 
-import java.io.IOException;
-import java.util.Objects;
-import java.util.Optional;
-
 import de.coin.kniffel.util.DialogUtils;
 import de.coin.kniffel.util.ImportExportUtil;
 import javafx.fxml.FXML;
@@ -11,7 +7,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
+import lombok.extern.slf4j.Slf4j;
 
+import java.io.IOException;
+import java.util.Objects;
+import java.util.Optional;
+
+@Slf4j
 public class MainController {
 
     @FXML
@@ -33,8 +35,13 @@ public class MainController {
     }
 
     @FXML
-    private void handleScoreView()  {
+    private void handleGameResultView()  {
         loadView("game-result-view.fxml");
+    }
+
+    @FXML
+    private void handleScoreView()  {
+        loadView("score-crud-view.fxml");
     }
 
     @FXML

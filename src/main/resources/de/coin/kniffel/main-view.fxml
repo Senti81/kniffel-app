@@ -17,9 +17,10 @@
                 <Menu text="Spiel">
                     <MenuItem onAction="#handleScoreManagement" text="Neues Spiel eintragen" />
                     <MenuItem onAction="#handleGameView" text="Spieleverwaltung" />
+                    <MenuItem onAction="#handleScoreView" text="Punkteverwaltung" />
                 </Menu>
                 <Menu text="Auswertung">
-                    <MenuItem onAction="#handleScoreView" text="Ergebnisse" />
+                    <MenuItem onAction="#handleGameResultView" text="Ergebnisse" />
                     <MenuItem onAction="#handleExport" text="Export" />
                 </Menu>
             </MenuBar>

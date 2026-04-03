@@ -10,6 +10,7 @@ import java.util.List;
 import de.coin.kniffel.model.Score;
 import de.coin.kniffel.model.dto.GameResultDTO;
 import de.coin.kniffel.model.dto.ResultDTO;
+import de.coin.kniffel.model.dto.ScoreCrudDTO;
 import de.coin.kniffel.util.DatabaseUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -59,6 +60,20 @@ public class ScoreRepository {
             FROM Score s
             JOIN Player p ON s.PLAYER_ID = p.ID
             JOIN Game g ON s.GAME_ID = g.ID
+        """;
+
+    private static final String FIND_ALL_FOR_CRUD = """
+            SELECT
+                s.GAME_ID,
+                s.PLAYER_ID,
+                s.SCORE,
+                s.CONTRIBUTION,
+                p.NAME AS PLAYER_NAME,
+                CONCAT(g.GAME_NR, '/', g.GAME_YEAR) AS GAME_INFO
+            FROM Score s
+            JOIN Player p ON s.PLAYER_ID = p.ID
+            JOIN Game g ON s.GAME_ID = g.ID
+            ORDER BY g.GAME_YEAR DESC, g.GAME_NR DESC, s.SCORE DESC
         """;
 
     public void save(Score score) {
@@ -194,6 +209,29 @@ public class ScoreRepository {
         } catch (SQLException e) {
             log.error("Error while updating score: {}", e.getMessage());
         }
+    }
+
+    public List<ScoreCrudDTO> findAllForCrud() {
+        List<ScoreCrudDTO> scores = new ArrayList<>();
+        try {
+            Connection connection = DatabaseUtil.getConnection();
+            PreparedStatement statement = connection.prepareStatement(FIND_ALL_FOR_CRUD);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                ScoreCrudDTO dto = new ScoreCrudDTO();
+                dto.getGameId().set(resultSet.getInt("GAME_ID"));
+                dto.getPlayerId().set(resultSet.getInt("PLAYER_ID"));
+                dto.getScore().set(resultSet.getInt("SCORE"));
+                dto.getContribution().set(resultSet.getDouble("CONTRIBUTION"));
+                dto.getPlayerName().set(resultSet.getString("PLAYER_NAME"));
+                dto.getGameInfo().set(resultSet.getString("GAME_INFO"));
+                scores.add(dto);
+            }
+        } catch (SQLException e) {
+            log.error("Error while fetching scores for CRUD: {}", e.getMessage());
+        }
+        return scores;
     }
 
 }

@@ -37,7 +37,12 @@ public class PlayerRepository{
             preparedStatement.setString(1, player.getPlayerName());
             preparedStatement.executeUpdate();
 
-            log.info("Player {} saved successfully", player.getPlayerName());
+            ResultSet keys = preparedStatement.getGeneratedKeys();
+            if (keys.next()) {
+                player.setPlayerId(keys.getInt(1));
+            }
+
+            log.info("Player {} saved successfully with ID: {}", player.getPlayerName(), player.getPlayerId());
 
         } catch (SQLException e) {
             log.error("Error while saving player: {}", e.getMessage());
