@@ -103,7 +103,6 @@ public class PdfUtils {
 
         for (String header : TABLE_HEADERS) {
             PdfPCell headerCell = new PdfPCell(new Phrase(header, headerFont));
-            headerCell.setBackgroundColor(BaseColor.LIGHT_GRAY);
             headerCell.setPadding(5);
             headerCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             table.addCell(headerCell);
