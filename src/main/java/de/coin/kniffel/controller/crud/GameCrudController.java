@@ -7,14 +7,11 @@ import de.coin.kniffel.repository.GameRepository;
 import de.coin.kniffel.repository.PlayerRepository;
 import de.coin.kniffel.repository.ScoreRepository;
 import de.coin.kniffel.util.DateTimeUtils;
+import de.coin.kniffel.util.DialogUtils;
 import javafx.collections.FXCollections;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 
@@ -31,6 +28,8 @@ public class GameCrudController extends AbstractCrudController<GameScoreViewDTO>
     private final GameRepository gameRepository = new GameRepository();
     private final PlayerRepository playerRepository = new PlayerRepository();
     private final ScoreRepository scoreRepository = new ScoreRepository();
+    public Button helpButton;
+    public Button deleteButton;
     private List<Player> players;
 
     @Override
@@ -46,6 +45,43 @@ public class GameCrudController extends AbstractCrudController<GameScoreViewDTO>
         players = playerRepository.findAll();
         createPlayerColumns();
         loadGamesWithScores();
+    }
+
+    public void handleHelp() {
+        String helpText = "Datum bearbeiten:\n\n" +
+                "1. Doppelklick auf eine Datumszelle\n" +
+                "2. Neues Datum eingeben\n" +
+                "   Format: dd.MM.yyyy (z.B. 05.04.2026)\n" +
+                "3. Enter drücken zum Speichern\n" +
+                "4. Escape drücken zum Abbrechen";
+
+        DialogUtils.showHelpDialog(helpText);
+    }
+
+    public void handleDelete() {
+        GameScoreViewDTO selected = gameTableView.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            showAlert(Alert.AlertType.ERROR, "Fehler", "Kein Spiel ausgewählt");
+            return;
+        }
+
+        Game game = new Game();
+        game.setGameId(selected.getGameId());
+        gameRepository.delete(game);
+        refreshTable();
+    }
+
+    @Override
+    protected void refreshTable() {
+        itemList.clear();
+        loadGamesWithScores();
+    }
+
+    public void showAlert(Alert.AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     private Callback<TableColumn<GameScoreViewDTO, String>, TableCell<GameScoreViewDTO, String>> createDateEditingCell() {
@@ -95,36 +131,6 @@ public class GameCrudController extends AbstractCrudController<GameScoreViewDTO>
 
         itemList = FXCollections.observableArrayList(gameScoreViews);
         gameTableView.setItems(itemList);
-    }
-
-    public void handleDelete() {
-        GameScoreViewDTO selected = gameTableView.getSelectionModel().getSelectedItem();
-        if (selected == null) {
-            showAlert(Alert.AlertType.ERROR, "Fehler", "Kein Spiel ausgewählt");
-            return;
-        }
-
-        Game game = new Game();
-        game.setGameId(selected.getGameId());
-        gameRepository.delete(game);
-        refreshTable();
-    }
-
-    @Override
-    protected void refreshTable() {
-        itemList.clear();
-        loadGamesWithScores();
-    }
-
-    public void showAlert(Alert.AlertType alertType, String title, String content) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
-
-    public void showDateErrorAlert() {
-        showAlert(Alert.AlertType.ERROR, "Ungültiges Datum", "Format: dd.MM.yyyy (z.B. 05.04.2026)");
     }
 
     private static class DateEditingCell extends TableCell<GameScoreViewDTO, String> {
@@ -202,7 +208,7 @@ public class GameCrudController extends AbstractCrudController<GameScoreViewDTO>
         private void showDateError() {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Ungültiges Datum");
-            alert.setContentText("Format: dd.MM.yyyy (z.B. 05.04.2026)");
+            alert.setContentText("Bitte Datum im Format dd.MM.JJJJ eingeben (z.B. 01.01.2026)");
             alert.showAndWait();
         }
     }

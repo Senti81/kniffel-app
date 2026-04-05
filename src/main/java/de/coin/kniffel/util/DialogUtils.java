@@ -7,6 +7,13 @@ import javafx.scene.control.ButtonType;
 
 public class DialogUtils {
 
+    public static void showHelpDialog(String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, content, ButtonType.OK);
+        alert.setTitle("Hilfe");
+        alert.setHeaderText("So funktioniert's:");
+        alert.showAndWait();
+    }
+
     public static Optional<ButtonType> showConfirmationDialog(String content) {
         Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
         confirmationDialog.setTitle("Bestätigen");
