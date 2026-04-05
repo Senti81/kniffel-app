@@ -206,12 +206,5 @@ public class GameCrudController extends AbstractCrudController<GameScoreViewDTO>
             setText(newValue);
             onUpdate.run();
         }
-
-        private void showDateError() {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Ungültiges Datum");
-            alert.setContentText("Bitte Datum im Format dd.MM.JJJJ eingeben (z.B. 01.01.2026)");
-            alert.showAndWait();
-        }
     }
 }
