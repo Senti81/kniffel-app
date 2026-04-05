@@ -40,11 +40,6 @@ public class MainController {
     }
 
     @FXML
-    private void handleScoreView()  {
-        loadView("score-crud-view.fxml");
-    }
-
-    @FXML
     public void handleExport() {
         loadView("export-view.fxml");
     }

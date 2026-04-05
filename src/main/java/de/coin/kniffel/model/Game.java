@@ -1,13 +1,11 @@
 package de.coin.kniffel.model;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 public class Game {

@@ -9,12 +9,9 @@
     <center>
         <TableView fx:id="gameTableView" prefWidth="900">
             <columns>
-                <TableColumn fx:id="idColumn" prefWidth="60" text="ID" />
-                <TableColumn fx:id="numberColumn" prefWidth="60" text="Nr" />
                 <TableColumn fx:id="yearColumn" prefWidth="80" text="Jahr" />
+                <TableColumn fx:id="numberColumn" prefWidth="60" text="Nr" />
                 <TableColumn fx:id="dateColumn" prefWidth="120" text="Datum" />
-                <TableColumn fx:id="createdAtColumn" prefWidth="160" text="Erstellt" />
-                <TableColumn fx:id="updatedAtColumn" prefWidth="160" text="Aktualisiert" />
             </columns>
         </TableView>
     </center>

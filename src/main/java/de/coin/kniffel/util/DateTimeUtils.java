@@ -2,6 +2,7 @@ package de.coin.kniffel.util;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class DateTimeUtils {
 
@@ -19,5 +20,21 @@ public class DateTimeUtils {
 
     public static String formatDate(LocalDate date) {
         return DATE_FORMATTER.format(date);
+    }
+
+    public static LocalDate parseDate(String dateStr) {
+        return LocalDate.parse(dateStr, DATE_FORMATTER);
+    }
+
+    public static boolean isValidDate(String dateStr) {
+        if (dateStr == null || dateStr.isBlank()) {
+            return false;
+        }
+        try {
+            LocalDate.parse(dateStr, DATE_FORMATTER);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
     }
 }

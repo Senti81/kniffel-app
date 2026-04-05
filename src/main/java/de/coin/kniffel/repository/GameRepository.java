@@ -26,6 +26,7 @@ public class GameRepository {
     private static final String FIND_BY_NUMBER_AND_YEAR = "SELECT * FROM GAME WHERE game_nr = ? AND game_year = ?";
     private static final String FIND_LATEST_GAME = "SELECT * FROM Game WHERE Id = (SELECT MAX(Id) FROM Game)";
     private static final String INSERT_GAME = "INSERT INTO Game (game_nr, game_year, date, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
+    private static final String UPDATE_DATE = "UPDATE Game SET date = ?, updated_at = ? WHERE id = ?";
     private static final String DELETE_GAME = "DELETE FROM Game WHERE Id = ?";
 
     public int save(Game game) {
@@ -190,6 +191,22 @@ public class GameRepository {
             log.info("Game {} deleted successfully", game.getGameId());
         } catch (SQLException e) {
             log.error("Error while deleting game: {}", e.getMessage());
+        }
+    }
+
+    public void updateDate(int gameId, LocalDate newDate) {
+        try {
+            Connection connection = DatabaseUtil.getConnection();
+            PreparedStatement statement = connection.prepareStatement(UPDATE_DATE);
+
+            statement.setDate(1, Date.valueOf(newDate));
+            statement.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
+            statement.setInt(3, gameId);
+
+            statement.executeUpdate();
+            log.info("Game {} date updated to {}", gameId, newDate);
+        } catch (SQLException e) {
+            log.error("Error while updating game date: {}", e.getMessage());
         }
     }
 
