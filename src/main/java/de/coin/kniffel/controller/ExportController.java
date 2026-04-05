@@ -115,7 +115,9 @@ public class ExportController implements Initializable {
     public void export() {
         if (selectedGameNumbers == null) {
             log.error("No game numbers selected");
-            DialogUtils.showErrorDialog("Bitte zuerst Jahr und Spiele auswählen.");
+            DialogUtils.showErrorDialog(
+                    "Kein Spiel ausgewählt",
+                    "Bitte zuerst Jahr und Spiele auswählen.");
             return;
         }
         log.info("Printing the following information to PDF: {} {} {} {}", listGameResults, listGameResults2, listSeasonResults, listSeasonResults2);

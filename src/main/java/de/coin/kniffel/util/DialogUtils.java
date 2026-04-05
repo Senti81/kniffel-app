@@ -47,9 +47,10 @@ public class DialogUtils {
         dialog.show();
     }
 
-    public static void showErrorDialog(String message) {
+    public static void showErrorDialog(String context, String message) {
         Alert dialog = new Alert(Alert.AlertType.ERROR);
-        dialog.setHeaderText("Hoppla, da ist was schief gelaufen");
+        dialog.setTitle("Fehler");
+        dialog.setHeaderText(context);
         dialog.setContentText(message);
         dialog.getButtonTypes().setAll(ButtonType.OK);
         dialog.show();

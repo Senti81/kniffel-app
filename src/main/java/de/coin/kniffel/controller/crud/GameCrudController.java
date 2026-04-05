@@ -190,7 +190,9 @@ public class GameCrudController extends AbstractCrudController<GameScoreViewDTO>
             }
 
             if (!DateTimeUtils.isValidDate(newValue)) {
-                showDateError();
+                DialogUtils.showErrorDialog(
+                        "Ungültiges Datum",
+                        "Bitte Datum im Format dd.MM.JJJJ eingeben (z.B. 01.01.2026)");
                 cancelEdit();
                 return;
             }
